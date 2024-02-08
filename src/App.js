@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Board from "./pages/Board";
+import BoardDetail from "./components/Board/BoardDetail";
+import MyPage from "./pages/MyPage";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+const Container = styled.div`
+  margin: 10px auto;
+  width: 370px;
+`;
+
+const App = () => {
+    return (
+        <Container>
+            <Routes>
+                <Route path="/" component={<Board/>} />
+                <Route path="/board" component={<Board/>} />
+                <Route path="/board/:boardId" component={<BoardDetail/>} />
+                <Route path="/register" component={<Register/>} />
+                <Route path="/login" component={<Login/>} />
+                <Route path="/mypage" component={<MyPage/>} />
+            </Routes>
+        </Container>
   );
 }
 
