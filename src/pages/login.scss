@@ -1,0 +1,71 @@
+
+.flexBox {
+  display: flex;
+  justify-content: space-between;
+  margin: 50px 0 12px 0;
+}
+
+.logo {
+  display:inline-block;
+  width: 48px;
+  height: 52px;
+}
+
+.logoTitle {
+  color: #757575;
+  font-size: 16px;
+  font-weight:normal;
+  padding: 28px 8px 0 0;
+  letter-spacing: -0.045rem;
+}
+
+.styledDiv {
+  color: #c62917;
+  text-align:center;
+  margin-top: 20px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.styledSpan {
+  color: #909090;
+  font-weight: 300;
+  margin-right: 10px;
+  letter-spacing: -0.05rem;
+}
+
+.styledButton {
+  /* 공통 스타일 */
+  width: 100%;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+
+  /* 크기 */
+  height: 40px;
+  font-size: 16px;
+  font-weight: 200;
+
+  /* 색상 */
+  background: #c62917;
+
+  margin-top: 6px;
+}
+
+.styledInput {
+  /* 공통 스타일 */
+  width: 100%;
+  outline: none;
+  border: 1px solid #ededed;
+  box-sizing: border-box;
+  color: #333;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+
+  /* 색상 */
+  background: #fff;
+
+  /* 크기 */
+  height: 40px;
+  margin-top: 5px;
+}

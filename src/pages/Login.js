@@ -1,46 +1,13 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../_actions/user_actions";
-import { Link, withRouter } from "react-router-dom";
-import styled from "styled-components";
+//import { useDispatch } from "react-redux";
+//import { loginUser } from "../_actions/user_actions";
+import { Link } from "react-router-dom";
+import './login.scss';
 import logo from "../assets/logo.png";
-import LoginInput from "../components/Login/LoginInput";
-import LoginButton from "../components/Login/LoginButton";
-import StyledContainer from "../components/Style/styledContainer";
 
-const FlexBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 50px 0px 12px 0px;
-`
-const Logo = styled.img`
-    display: inline-block;
-    width: 48px;
-    height: 52px;
-`;
-const LogoTitle = styled.h2`
-  color: #757575;
-  font-size: 16px;
-  font-weight: normal;
-  padding: 28px 8px 0px 0px;
-  letter-spacing: -0.045rem;
-`;
-const StyledDiv = styled.div`
-  color: #c62917;
-  text-align: center;
-  margin-top: 20px;
-  font-weight: 500;
-  font-size: 16px;
-`;
-const StyledSpan = styled.span`
-  color: #909090;
-  font-weight: 300;
-  margin-right: 10px;
-  letter-spacing: -0.05rem;
-`;
-
-const Login = ({history }) => {
-    const dispatch = useDispatch();
+//const Login = ({history }) => {
+const Login = () => {
+    //const dispatch = useDispatch();
     const [inputs, setInput] = useState({
         userId: "",
         userPw: "",
@@ -58,14 +25,14 @@ const Login = ({history }) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        let body = {
+        /*let body = {
             id: userId,
             password: userPw,
-        };
+        };*/
         if (!userId || !userPw) {
             alert("필수 항목을 작성하세요!");
         } else {
-            dispatch(loginUser(body))
+            /*dispatch(loginUser(body))
                 .then((response) => {
                     if (response.payload.loginSuccess) {
                         window.localStorage.setItem('userId', response.payload.userId);
@@ -73,45 +40,46 @@ const Login = ({history }) => {
                     } else {
                         alert(response.payload.message);
                     }
-                })
+                }
+            )*/
         }
     };
 
     return (
-        <StyledContainer>
+        <div className='styledContainer'>
             <div>
-                <FlexBox>
-                    <Logo src={logo} alt="logo" />
-                    <LogoTitle>지금
+                <div className='flexBox'>
+                    <img className='logo' src={logo} alt="logo" />
+                    <h2 className='logoTitle'>지금
                         <strong> 에브리타임</strong>
                         을 시작하세요!
-                    </LogoTitle>
-                </FlexBox>
+                    </h2>
+                </div>
                 <form onSubmit={onSubmit}>
-                    <LoginInput
+                    <input className='styledInput'
                         type="text"
                         name="userId"
                         placeholder="아이디"
                         onChange={onChange}
                         value={userId}
                     />
-                    <LoginInput
+                    <input className='styledInput'
                         type="password"
                         name="userPw"
                         placeholder="비밀번호"
                         onChange={onChange}
                         value={userPw}
                     />
-                    <LoginButton type="submit">로그인</LoginButton>
+                    <button className='styledButton' type="submit">로그인</button>
                 </form>
-                <StyledDiv>
+                <div className='styledDiv'>
                     <Link to="./register">
-                        <StyledSpan>에브리타임에 처음이신가요?</StyledSpan>회원가입
+                        <span className='styledSpan'>에브리타임에 처음이신가요?</span>회원가입
                     </Link>
-                </StyledDiv>
+                </div>
             </div>
-        </StyledContainer>
+        </div>
     );
 }
 
-export default withRouter(Login);
+export default Login;
