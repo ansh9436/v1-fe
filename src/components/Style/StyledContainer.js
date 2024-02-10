@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
+const Container = styled["div"]`
   width: 100%;
   min-height: 80vh;
   display: flex;
@@ -10,12 +10,8 @@ const Container = styled.div`
   flex-flow: row wrap;
 `
 
-function StyledContainer({children}) {
-    return (
-        <Container>
-            {children}
-        </Container>
-    )
+const StyledContainer = ({children}) => {
+    return <Container>{children}</Container>;
 }
 
 export default StyledContainer;

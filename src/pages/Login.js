@@ -1,84 +1,114 @@
-import React, { useState } from "react";
-//import { useDispatch } from "react-redux";
-//import { loginUser } from "../_actions/user_actions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import './login.scss';
 import logo from "../assets/logo.png";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Formik, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { setToken } from "../redux/reducers/AuthReducer";
 
-//const Login = ({history }) => {
 const Login = () => {
-    //const dispatch = useDispatch();
-    const [inputs, setInput] = useState({
-        userId: "",
-        userPw: "",
+    const navigate = useNavigate();
+    // 쿼리 파라미터 받아오기
+    const [searchParams] = useSearchParams();
+    const dispatch = useDispatch();
+    const validationSchema = Yup.object().shape({
+        user_email: Yup.string()
+            .email("올바른 이메일 형식이 아닙니다!")
+            .required("이메일을 입력하세요!"),
+        user_passwd: Yup.string()
+            .required("비밀번호를 입력하세요!")
     });
-
-    const { userId, userPw } = inputs;
-
-    const onChange = (e) => {
-        const { value, name } = e.target;
-        setInput({
-            ...inputs,
-            [name]: value,
-        });
-    };
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        /*let body = {
-            id: userId,
-            password: userPw,
-        };*/
-        if (!userId || !userPw) {
-            alert("필수 항목을 작성하세요!");
-        } else {
-            /*dispatch(loginUser(body))
-                .then((response) => {
-                    if (response.payload.loginSuccess) {
-                        window.localStorage.setItem('userId', response.payload.userId);
-                        history.push("/board");
+    const submit = async (values) => {
+        const { user_email, user_passwd } = values;
+        try {
+            const {data} = await axios.post("/api/login", {
+                user_email,
+                user_passwd,
+            });
+            console.log('로그인 값',data);
+            if(data.success) {
+                dispatch(setToken(data.token));
+                const redirectUrl = searchParams.get("redirectUrl");
+                toast.success(<h3>로그인 성공😎</h3>, {
+                    position: "top-center",
+                    //autoClose: 2000,
+                });
+                // redirectUrl 이 쿼리스트링으로 존재하면
+                // 원래가고자 했던 페이지로 돌아가기
+                setTimeout(()=> {
+                    if (redirectUrl) {
+                        navigate(redirectUrl);
                     } else {
-                        alert(response.payload.message);
+                        navigate("/");
                     }
-                }
-            )*/
+                }, 1000);
+            } else {
+                toast.error(data.message + "😭", {
+                    position: "top-center",
+                });
+            }
+        } catch (e) {
+            toast.error(e.response.data.message + "😭", {
+                position: "top-center",
+            });
         }
     };
 
     return (
-        <div className='styledContainer'>
-            <div>
-                <div className='flexBox'>
-                    <img className='logo' src={logo} alt="logo" />
-                    <h2 className='logoTitle'>지금
-                        <strong> 에브리타임</strong>
-                        을 시작하세요!
-                    </h2>
+        <Formik
+            initialValues={{
+                user_email: "",
+                user_passwd: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={submit}
+        >
+            {({values, handleSubmit, handleChange}) => (
+                <div className='styledContainer'>
+                    <ToastContainer/>
+                    <div>
+                        <div className='flexBox'>
+                            <img className='logo' src={logo} alt="logo" />
+                            <h2 className='logoTitle'>지금
+                                <strong> 에브리타임</strong>
+                                을 시작하세요!
+                            </h2>
+                        </div>
+                        <form onSubmit={handleSubmit}>
+                            <input className='styledInput'
+                                    type='email'
+                                    name='user_email'
+                                    placeholder='이메일'
+                                    onChange={handleChange}
+                                    value={values.user_email}
+                            />
+                            <div className="error-message">
+                                <ErrorMessage name="user_email" />
+                            </div>
+                            <input className='styledInput'
+                                    type='password'
+                                    name='user_passwd'
+                                    placeholder='비밀번호'
+                                    onChange={handleChange}
+                                    value={values.user_passwd}
+                            />
+                            <div className="error-message">
+                                <ErrorMessage name="user_passwd" />
+                            </div>
+                            <button className='styledButton' type="submit">로그인</button>
+                        </form>
+                        <div className='styledDiv'>
+                            <Link to="./register">
+                                <span className='styledSpan'>에브리타임에 처음이신가요?</span>회원가입
+                            </Link>
+                        </div>
+                    </div>
                 </div>
-                <form onSubmit={onSubmit}>
-                    <input className='styledInput'
-                        type="text"
-                        name="userId"
-                        placeholder="아이디"
-                        onChange={onChange}
-                        value={userId}
-                    />
-                    <input className='styledInput'
-                        type="password"
-                        name="userPw"
-                        placeholder="비밀번호"
-                        onChange={onChange}
-                        value={userPw}
-                    />
-                    <button className='styledButton' type="submit">로그인</button>
-                </form>
-                <div className='styledDiv'>
-                    <Link to="./register">
-                        <span className='styledSpan'>에브리타임에 처음이신가요?</span>회원가입
-                    </Link>
-                </div>
-            </div>
-        </div>
+            )}
+        </Formik>
     );
 }
 

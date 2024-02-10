@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const MenuBox = styled.ul`
+const MenuBox = styled["ul"]`
     color: #212121;
     width: 100%;
     margin: 8px 0px;
@@ -14,12 +14,12 @@ const MenuBox = styled.ul`
     line-height: ${(props) => props.lineHeight || "40px"};
 `;
 
-function StyledBox({children, padding, lineHeight, backColor}) {
+const StyledBox = ({children, padding, lineHeight, backColor}) => {
     return (
         <MenuBox backColor={backColor} padding={padding} lineHeight={lineHeight}>
             {children}
         </MenuBox>
-    )
+    );
 }
 
 export default StyledBox;

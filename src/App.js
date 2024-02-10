@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -15,6 +16,7 @@ const App = () => {
                 <Routes>
                     <Route path="/" element={<Login/>} />
                     <Route path="/login" element={<Login/>} />
+                    <Route path="/register" element={<Register/>} />
                 </Routes>
             </Container>
         </React.Fragment>

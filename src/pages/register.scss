@@ -1,0 +1,44 @@
+.check-button {
+    /* 공통 스타일 */
+    width: 18%;
+    outline: none;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+
+    /* 색상 */
+    background: #bbb;
+
+    /* 크기 */
+    height: 25px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    line-height: 25px;
+}
+
+.register-button {
+    /* 공통 스타일 */
+    width: 100%;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 12px;
+
+    /* 크기 */
+    height: 40px;
+    font-size: 16px;
+    font-weight: 200;
+
+    /* 색상 */
+    background: #c62917;
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+.error-message {
+    padding: 7px 10px;
+    font-size: 0.7rem;
+    color: red;
+    font-weight: bold;
+}

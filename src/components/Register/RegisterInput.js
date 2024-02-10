@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledLabel = styled.label`
+const StyledLabel = styled["label"]`
   font-size: 12px;
   color: #777;
   padding-left: 5px;
 `;
-const StyledInput = styled.input`
+const StyledInput = styled["input"]`
   /* 공통 스타일 */
   width: 100%;
   outline: none;
