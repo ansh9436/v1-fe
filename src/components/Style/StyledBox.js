@@ -16,7 +16,7 @@ const MenuBox = styled["ul"]`
 
 const StyledBox = ({children, padding, lineHeight, backColor}) => {
     return (
-        <MenuBox backColor={backColor} padding={padding} lineHeight={lineHeight}>
+        <MenuBox style={{backColor: {backColor}, padding: {padding}, lineHeight: {lineHeight}}}>
             {children}
         </MenuBox>
     );

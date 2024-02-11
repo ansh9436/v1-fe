@@ -1,0 +1,47 @@
+.styledHeader {
+    display: flex;
+    color: #353535;
+    background-color: #fff;
+    width: 100%;
+    height: 56px;
+    padding: 0 8px;
+    margin-bottom: 8px;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 30px;
+    height: 32px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.headerTitle {
+    color: #454545;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    line-height: 56px;
+    padding-left: 8px;
+}
+
+.backButton {
+    line-height: 56px;
+    margin-right: 4px;
+}
+
+
+
+.border {
+    border: 1px solid #f8e1e0;
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    border-radius: 4px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.back {
+    width: 10px;
+}

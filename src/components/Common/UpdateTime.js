@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function UpdateTime(time) {
+export default time => {
         const now = new Date();
         const writtenTime = new Date(time.time);
 
