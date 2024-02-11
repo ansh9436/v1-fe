@@ -6,7 +6,7 @@ import checkWriter from "../../assets/writeractive.png";
 
 const CheckButton = styled.li`
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   width: 38px;
   height: 38px;
   left: ${(props) => props.left || "10px"};
@@ -14,8 +14,8 @@ const CheckButton = styled.li`
 const SubmitButton = styled.li`
   background-color: #c62917;
   position: absolute;
-  bottom: 0px;
-  right: 0px;
+  bottom: 0;
+  right: 0;
   width: 38px;
   height: 38px;
 `;
