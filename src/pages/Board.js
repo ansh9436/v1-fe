@@ -4,22 +4,23 @@ import StyledBox from "../components/Style/StyledBox";
 import Card from "../components/Board/Card";
 import Header from "../components/Common/Header";
 import Footer from "../components/Common/Footer";
-import { Pagination } from "@mui/material";
+import Pagination from '@mui/material/Pagination';
+import "./board.scss";
+import CheckNickname from "../components/Board/CheckNickname";
 
 const Board = () => {
     //const userFrom = localStorage.getItem("userId");
-    //const writerFrom = localStorage.getItem("userNickname");
+    //const writerFrom = '임시';//localStorage.getItem("userNickname");
     const [pageTotal, setPageTotal] = useState(0);
     const [page, setPage] = useState(1);
     const [boardList, setBoardList] = useState([]);
-    //const [WriterIcon, setWriterIcon] = useState(true);
-    //const [BoardWriter, setBoardWriter] = useState("익명");
+    const [WriterIcon, setWriterIcon] = useState(true);
+    const [BoardWriter, setBoardWriter] = useState("익명");
 
-    /*const [inputs, setInput] = useState({
-        boardTitle: "",
-        boardContent: "",
+    const [inputs, setInput] = useState({
+        title: "",
+        body: "",
     });
-    const { boardTitle, boardContent } = inputs;*/
 
     useEffect(() => {
         const getBoardList = async () => {
@@ -38,7 +39,6 @@ const Board = () => {
         //setContent(Content.filter((Content) => Content._id !== id));
     };
 
-    /*
 
     const onChange = (e) => {
         const { value, name } = e.target;
@@ -51,43 +51,42 @@ const Board = () => {
     const onIconClick = () => {
         if (WriterIcon) {
             setWriterIcon(false);
-            setBoardWriter(writerFrom);
-        } else {
+            setBoardWriter("N");
+        } else { //익명
             setWriterIcon(true);
-            setBoardWriter("익명");
+            setBoardWriter("Y");
         }
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
-        if (!boardTitle) {
+        if (!inputs.title) {
             alert(`제목을 작성해주세요`);
             return;
-        } else if (!boardContent) {
+        } else if (!inputs.body) {
             alert(`내용을 작성해주세요`);
             return;
-        } else if (boardContent.length > 300) {
+        } else if (inputs.body.length > 300) {
             alert(`내용을 300자 이내로 작성해주세요`);
             return;
         }
-        let variables = {
-            userFrom: userFrom,
-            boardTitle: boardTitle,
-            boardContent: boardContent,
-            boardWriter: BoardWriter,
+        const params = {
+            title: inputs.title,
+            body: inputs.body
         };
-        axios.post("/board/upload", variables).then((response) => {
-            if (response.status === 200) {
+        axios.post("/board", params).then((res) => {
+            if (res.status === 200) {
                 setInput({
-                    boardTitle: "",
-                    boardContent: "",
+                    title: "",
+                    body: "",
+                    anon_yn: BoardWriter
                 });
-                FetchBoard();
+                setPage(0);
             } else {
                 alert("게시글 업로드에 실패하였습니다.");
             }
         });
-    }*/
+    }
 
     return (
         <>
@@ -101,18 +100,18 @@ const Board = () => {
                     <div className="profile-btn">
                         <LogoutButton />
                     </div>
-                </div>
+                </div>*/}
                 <form className="boardForm" onSubmit={onSubmit}>
-                    <BoardInput
-                        name="boardTitle"
+                    <input
+                        name="title"
                         placeholder="제목을 작성해주세요."
-                        value={boardTitle}
+                        value={inputs.title}
                         onChange={onChange}
                     />
-                    <BoardTextarea
+                    <textarea
                         name="boardContent"
                         placeholder="여기를 눌러서 글을 작성할 수 있습니다."
-                        value={boardContent}
+                        value={inputs.body}
                         onChange={onChange}
                     />
                     <CheckNickname
@@ -120,17 +119,17 @@ const Board = () => {
                         click={onIconClick}
                         submit={onSubmit}
                     />
-                </form>*/}
+                </form>
                 {
-                boardList.map((board, index) => {
+                boardList.map((row, index) => {
                     return (
                         <React.Fragment key={index}>
                             <Card
-                                seq={board.seq}
-                                createdAt={board.createdAt}
-                                user_nick={board.user_nick}
-                                title={board.title}
-                                body={board.body}
+                                seq={row.seq}
+                                created_at={row.created_at}
+                                user_nick={row.user_nick}
+                                title={row.title}
+                                body={row.body}
                                 onRemove={onRemove}
                             />
                         </React.Fragment>
@@ -138,18 +137,18 @@ const Board = () => {
                 })}
                 <div className="paginationBox">
                     <Pagination
+                        variant="outlined"
                         count={pageTotal}
                         page={page}
                         onChange={(e, value) => {
                             setPage(value);
                         }}
-                        shape="rounded"
                         size="small"
                         hidePrevButton
                         hideNextButton
                     />
                 </div>
-                <Footer/>
+                <Footer />
             </StyledBox>
         </>
     );

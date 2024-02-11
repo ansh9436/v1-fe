@@ -7,8 +7,8 @@ import profile from '../../assets/profile.png';
 import DeleteButton from '../Board/DeleteButton';
 import "./card.scss";
 
-const Card = (seq, created_at, user_nick, title, body, onRemove) => {
-    const currentUser = window.localStorage.getItem('userId');
+const Card = ({seq, created_at, user_nick, title, body, onRemove}) => {
+    //const currentUser = window.localStorage.getItem('userId');
     return (
         <>
             <div className="boardBox" key={seq}>

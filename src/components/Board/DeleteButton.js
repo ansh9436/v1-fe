@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-const DeleteButton = (seq, onRemove) => {
+const DeleteButton = ({seq, onRemove}) => {
     const onDelete = () => {
         const confirmDelete = window.confirm("삭제하시겠습니까?");
         confirmDelete && axios.post(`/api/board/${seq}`)
