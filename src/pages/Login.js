@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { setToken } from "../redux/reducers/AuthReducer";
+import {setAccToken, setReToken} from "../redux/reducers/AuthReducer";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -29,8 +29,9 @@ const Login = () => {
                 user_passwd,
             });
             console.log('로그인 값',data);
-            if(data.success) {
-                dispatch(setToken(data.token));
+            if(data.success && data.message === 'OK') {
+                dispatch(setAccToken(data['resultData']['accessToken']));
+                dispatch(setReToken(data['resultData']['refreshToken']));
                 const redirectUrl = searchParams.get("redirectUrl");
                 toast.success(<h3>로그인 성공😎</h3>, {
                     position: "top-center",

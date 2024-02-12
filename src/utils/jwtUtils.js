@@ -19,7 +19,9 @@ export class jwtUtils {
     static getId(token) {
         const decoded = jwtDecode(token)
 
-        return decoded.data.userid;
+        //return decoded.data.userid;
+        // payload 전체 가지고 오는거로 바꿈
+        return decoded.data;
     }
 
 }

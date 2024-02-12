@@ -14,7 +14,9 @@ const instance = axios.create({
 instance.interceptors.request.use((config) => {
     // HTTP Authorization 요청 헤더에 jwt-token 을 넣음
     // 서버측 미들웨어에서 이를 확인하고 검증한 후 해당 API 에 요청함.
-    const token = store.getState().Auth.token;
+   //const token = store.getState().Auth.token;
+    console.info('auth 값은', store.getState().Auth);
+    const token = store.getState().Auth.accToken;
     try {
         if (token && jwtUtils.isAuth(token)) {
             config.headers.Authorization = `Bearer ${token}`;
@@ -34,19 +36,16 @@ instance.interceptors.request.use((config) => {
  2개의 콜백 함수를 받습니다.
  */
 instance.interceptors.response.use((response) => {
-    /*
-        http status 가 200인 경우
-        응답 성공 직전 호출됩니다.
-        .then() 으로 이어집니다.
-    */
+    //http status 가 200인 경우 응답 성공 직전 호출됩니다 .then() 으로 이어집니다.
     return response;
-},(error) => {
+},async (err) => {
     /*
         http status 가 200이 아닌 경우
         응답 에러 직전 호출됩니다.
         .catch() 으로 이어집니다.
     */
-    return Promise.reject(error);
+    console.err('응답전 에러출력', err);
+    return Promise.reject(err);
 });
 
 export default instance;
