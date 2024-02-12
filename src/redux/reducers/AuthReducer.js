@@ -6,12 +6,12 @@ const AuthInitialState = {
 }
 
 export const setAccToken = (token) => ({
-    type: set_acc_token,
+    type: SET_ACC_TOKEN,
     token
 })
 
 export const setReToken = (token) => ({
-    type: set_re_token,
+    type: SET_RE_TOKEN,
     token
 })
 
