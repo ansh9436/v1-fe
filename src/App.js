@@ -16,7 +16,7 @@ const App = () => {
                 </Routes>
             </div>
         </React.Fragment>
-  );
+    );
 }
 
 export default App;
