@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../utils/api";
 import StyledBox from "../components/Style/StyledBox";
 import Card from "../components/Board/Card";
 import Header from "../components/Common/Header";
@@ -24,7 +24,7 @@ const Board = () => {
 
     useEffect(() => {
         const getBoardList = async () => {
-            const { data } = await axios.get("/api/board", {params: {page: page}});
+            const { data } = await api.get("/api/board", {params: {page: page}});
             return data;
         };
 
@@ -35,7 +35,7 @@ const Board = () => {
             });
     }, [page]);
 
-    const onRemove = (id) => {
+    const onRemove = (/*id*/) => {
         //setContent(Content.filter((Content) => Content._id !== id));
     };
 
@@ -74,7 +74,7 @@ const Board = () => {
             title: inputs.title,
             body: inputs.body
         };
-        axios.post("/board", params).then((res) => {
+        api.post("/api/board", params).then((res) => {
             if (res.status === 200) {
                 setInput({
                     title: "",

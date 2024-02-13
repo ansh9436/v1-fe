@@ -15,10 +15,12 @@ instance.interceptors.request.use((config) => {
     // HTTP Authorization 요청 헤더에 jwt-token 을 넣음
     // 서버측 미들웨어에서 이를 확인하고 검증한 후 해당 API 에 요청함.
    //const token = store.getState().Auth.token;
-    console.info('auth 값은', store.getState().Auth);
+    console.info('api 에서 auth 값은', store.getState().Auth);
     const token = store.getState().Auth.accToken;
     try {
-        if (token && jwtUtils.isAuth(token)) {
+        //if (token && jwtUtils.isAuth(token)) {
+        if (token) {
+            //console.log('api 에서 user 정보', jwtUtils.getId(token));
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
@@ -26,9 +28,10 @@ instance.interceptors.request.use((config) => {
         console.error('[_axios.interceptors.request] config : ' + err);
     }
     return config;
-},(error) => {
+},(err) => {
     // 요청 에러 직전 호출됩니다.
-    return Promise.reject(error);
+    console.error('api 에서 요청 에러출력', err);
+    return Promise.reject(err);
 });
 
 /**
@@ -44,7 +47,9 @@ instance.interceptors.response.use((response) => {
         응답 에러 직전 호출됩니다.
         .catch() 으로 이어집니다.
     */
-    console.err('응답전 에러출력', err);
+    //console.error('api 에서 응답 에러출력', err.response);
+    console.error('api 에서 응답 에러출력');
+    // const { data, status } = err.response;
     return Promise.reject(err);
 });
 

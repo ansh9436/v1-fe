@@ -12,7 +12,7 @@ const App = () => {
                     <Route path="/" element={<Login/>} />
                     <Route path="/login" element={<Login/>} />
                     <Route path="/register" element={<Register/>} />
-                    <Route path="/board" element={<Board/>} />
+                    <Route path="/board" element={Board} />
                 </Routes>
             </div>
         </React.Fragment>

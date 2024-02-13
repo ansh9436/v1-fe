@@ -28,7 +28,7 @@ const Login = () => {
                 user_email,
                 user_passwd,
             });
-            console.log('로그인 값',data);
+            console.log('로그인 result', data);
             if(data.success && data.message === 'OK') {
                 dispatch(setAccToken(data['resultData']['accessToken']));
                 dispatch(setReToken(data['resultData']['refreshToken']));
@@ -43,7 +43,7 @@ const Login = () => {
                     if (redirectUrl) {
                         navigate(redirectUrl);
                     } else {
-                        navigate("/");
+                        navigate("/board");
                     }
                 }, 1000);
             } else {
