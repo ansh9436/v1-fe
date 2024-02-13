@@ -11,9 +11,10 @@ import {setAccToken, setReToken} from "../redux/reducers/AuthReducer";
 
 const Login = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    
     // 쿼리 파라미터 받아오기
     const [searchParams] = useSearchParams();
-    const dispatch = useDispatch();
     const validationSchema = Yup.object().shape({
         user_email: Yup.string()
             .email("올바른 이메일 형식이 아닙니다!")
