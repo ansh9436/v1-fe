@@ -1,11 +1,10 @@
 import axios from 'axios';
 import store from "../redux/configStore";
-//import { useDispatch } from "react-redux";
 import { setAccToken, setReToken } from "../redux/reducers/AuthReducer";
 
 const instance = axios.create({
-    // baseURL: process.env.NODE_ENV === 'production' ? '' : 'https://api.eastflag.co.kr'
-    baseURL: process.env.NODE_ENV === 'production' ? '' : ''
+    // baseURL: process.env.NODE_ENV === 'prod' ? '' : 'https://api.eastflag.co.kr'
+    baseURL: process.env.NODE_ENV === 'prod' ? '' : ''
 });
 
 /**
@@ -15,7 +14,7 @@ const instance = axios.create({
 instance.interceptors.request.use((config) => {
     // HTTP Authorization 요청 헤더에 jwt-token 을 넣음
     // 서버측 미들웨어에서 이를 확인하고 검증한 후 해당 API 에 요청함.
-    const accToken = store.getState().Auth.accToken;
+    const accToken = store.getState().Auth["accToken"];
     try {
         if (accToken) {
             console.info('헤더 삽입된 액세세 토큰', accToken);
@@ -46,7 +45,7 @@ instance.interceptors.response.use((response) => { //status 가 200인 경우 th
     const { data, status }  = err.response;
 
     if(status === 401) {  // 리플래쉬 토큰으로 엑세스 토큰 재발금
-        const reToken           = store.getState().Auth.reToken;
+        const reToken           = store.getState().Auth["reToken"];
         const originalRequest   = err.config;
 
         console.log('리플래쉬토큰으로 발급 받기때 사용할 리플래쉬 토큰', reToken);
@@ -62,7 +61,7 @@ instance.interceptors.response.use((response) => { //status 가 200인 경우 th
         })
         .then((res) => {
             console.log('새로 발급받은 엑세스 토큰', res);
-            const newAccessToken = res.data["accessToken"];
+            const newAccessToken = res.data["resultData"]["accessToken"];
             store.dispatch(setAccToken(newAccessToken));
             originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
         })
