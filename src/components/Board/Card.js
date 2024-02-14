@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-//import LikeButton from './LikeButton';
-//import CommentButton from './CommentButton';
+import LikeButton from './LikeButton';
+import CommentButton from './CommentButton';
 import UpdateTime from '../Common/UpdateTime';
 import profile from '../../assets/profile.png';
 import DeleteButton from '../Board/DeleteButton';
 import "./card.scss";
 
-const Card = ({seq, created_at, user_nick, title, body, onRemove}) => {
+const Card = ({seq, created_at, user_nick, title, body, user_liked, like_cnt, comment_cnt, onRemove}) => {
     //const currentUser = window.localStorage.getItem('userId');
     return (
         <>
@@ -30,15 +30,14 @@ const Card = ({seq, created_at, user_nick, title, body, onRemove}) => {
                     <div className="boardContent">{body}</div>
                 </Link>
                 <div style={{textAlign: "right"}}>
-                    {/*<LikeButton
-                        boardId={seq}
-                        boardWriter={props.writer}
-                        boardTitle={props.title}
-                        boardContent={props.content}
+                    <LikeButton
+                        top_seq={seq}
+                        user_liked={user_liked}
+                        like_cnt={like_cnt}
                     />
                     <Link to={`/board/${seq}`}>
-                        <CommentButton boardId={seq}/>
-                    </Link>*/}
+                        <CommentButton comment_cnt={comment_cnt}/>
+                    </Link>
                 </div>
             </div>
         </>

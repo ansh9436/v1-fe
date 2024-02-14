@@ -18,7 +18,11 @@ instance.interceptors.request.use((config) => {
     const accToken = store.getState().Auth.accToken;
     try {
         if (accToken) {
+            console.info('헤더 삽입된 액세세 토큰', accToken);
             config.headers.Authorization = `Bearer ${accToken}`;
+        } else {
+            window.location.href = "/login";
+            alert("엑세스토큰이 없습니다. 다시 로그인 해주세요.");
         }
         return config;
     } catch(err) {
@@ -43,25 +47,26 @@ instance.interceptors.response.use((response) => { //status 가 200인 경우 th
 
     if(status === 401) {  // 리플래쉬 토큰으로 엑세스 토큰 재발금
         const reToken           = store.getState().Auth.reToken;
-        console.log('re', reToken);
         const originalRequest   = err.config;
-        //const dispatch          = useDispatch();
 
-        console.info('api 에서 응답 에러출력', data, status);
+        console.log('리플래쉬토큰으로 발급 받기때 사용할 리플래쉬 토큰', reToken);
+        if(!reToken) {
+            console.log('저장소 전체', store.getState().Auth);
+        }
+
+        console.info('401 api 에서 응답 에러출력', data, status);
         await axios.get("/api/refresh", {
             headers: {
                 "Authorization": `Bearer ${reToken}`,
             },
         })
         .then((res) => {
+            console.log('새로 발급받은 엑세스 토큰', res);
             const newAccessToken = res.data["accessToken"];
-            //dispatch(setAccToken(newAccessToken));
             store.dispatch(setAccToken(newAccessToken));
             originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
         })
         .catch((err) => {   // 에러시 저장소를 지우고 로그인페이지로
-            //dispatch(setAccToken(""));
-            //dispatch(setReToken(""));
             store.dispatch(setAccToken(''));
             store.dispatch(setReToken(''));
             console.error('엑세스 토큰 발급중 에러 : ' + err);
@@ -71,7 +76,7 @@ instance.interceptors.response.use((response) => { //status 가 200인 경우 th
         });
         return axios(originalRequest);
     } else if(status === 403) {     // 토큰 리셋후 로그인 페이지로
-        console.error('api 에서 응답 에러출력', data, status);
+        console.error('403 api 에서 응답 에러출력', data, status, err);
         window.location.href = "/login";
         alert("로그인 시간이 만료되었습니다. 다시 로그인 해주세요.");
         return false;

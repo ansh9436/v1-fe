@@ -130,6 +130,9 @@ const Board = () => {
                                 user_nick={row.user_nick}
                                 title={row.title}
                                 body={row.body}
+                                user_liked={true}
+                                like_cnt={row.like_cnt}
+                                comment_cnt={row.comment_cnt}
                                 onRemove={onRemove}
                             />
                         </React.Fragment>
