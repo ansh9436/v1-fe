@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../utils/api";
+import {Link, useSearchParams} from 'react-router-dom';
 import StyledBox from "../components/Style/StyledBox";
 import Card from "../components/Board/Card";
 import Header from "../components/Common/Header";
@@ -7,15 +8,23 @@ import Footer from "../components/Common/Footer";
 import Pagination from '@mui/material/Pagination';
 import "./board.scss";
 import CheckNickname from "../components/Board/CheckNickname";
+import UserProfile from "../components/Board/UserProfile";
+import LogoutButton from "../components/Common/LogoutButton";
+import {toast, ToastContainer} from "react-toastify";
 
 const Board = () => {
-    //const userFrom = localStorage.getItem("userId");
-    //const writerFrom = '임시';//localStorage.getItem("userNickname");
+    const [searchParams] = useSearchParams();
     const [pageTotal, setPageTotal] = useState(0);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(()=>{
+        if(searchParams.get("page")) {
+            return Number(searchParams.get("page"));
+        } else {
+            return 1;
+        }
+    });
     const [boardList, setBoardList] = useState([]);
     const [WriterIcon, setWriterIcon] = useState(true);
-    const [BoardWriter, setBoardWriter] = useState("익명");
+    const [BoardWriter, setBoardWriter] = useState("Y");
 
     const [inputs, setInput] = useState({
         title: "",
@@ -51,48 +60,64 @@ const Board = () => {
     const onIconClick = () => {
         if (WriterIcon) {
             setWriterIcon(false);
-            setBoardWriter("N");
-        } else { //익명
-            setWriterIcon(true);
             setBoardWriter("Y");
+        } else {
+            setWriterIcon(true);
+            setBoardWriter("N");
         }
+        console.log('익명사용여부', BoardWriter);
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
-        if (!inputs.title) {
-            alert(`제목을 작성해주세요`);
-            return;
-        } else if (!inputs.body) {
-            alert(`내용을 작성해주세요`);
-            return;
-        } else if (inputs.body.length > 300) {
-            alert(`내용을 300자 이내로 작성해주세요`);
+        if (inputs.title.trim().length === 0) {
+            toast.success(<h3>제목을 입력해 주세요!</h3>, {
+                position: "top-center",
+                autoClose: 2000
+            });
+            return false;
+        } else if (inputs.body.trim().length === 0) {
+            toast.success(<h3>내용을 입력해 주세요!</h3>, {
+                position: "top-center",
+                autoClose: 2000
+            });
+            return false;
+        } else if (inputs.body.trim().length > 300) {
+            toast.success(<h3>내용을 300자 이내로 작성해주세요!</h3>, {
+                position: "top-center",
+                autoClose: 2000
+            });
             return;
         }
-        const params = {
-            title: inputs.title,
-            body: inputs.body
-        };
-        api.post("/api/board", params).then((res) => {
-            if (res.status === 200) {
-                setInput({
-                    title: "",
-                    body: "",
-                    anon_yn: BoardWriter
+        api.post("/api/board", inputs)
+            .then((res) => {
+                const { data } = res;
+                if (data.success) {
+                    setInput({
+                        title: "",
+                        body: "",
+                        anon_yn: BoardWriter
+                    });
+                    setPage(0);
+                } else {
+                    toast.error('게시글 업로드에 실패하였습니다.', {
+                        position: "top-center",
+                    });
+                }
+            })
+            .catch((e) =>{
+                toast.error("오류발생" + e.response.data.message+ "😭", {
+                    position: "top-center",
                 });
-                setPage(0);
-            } else {
-                alert("게시글 업로드에 실패하였습니다.");
-            }
-        });
+            });
     }
 
     return (
         <>
             <Header title="자유게시판" link="/board" />
             <StyledBox backColor="#fafafa" padding="10px 0px" lineHeight="auto">
-                {/*<div className="profile-box">
+                <ToastContainer/>
+                <div className="profile-box">
                     <UserProfile boardPage={true} />
                     <Link to="/mypage">
                         <div className="Profile-btn">내정보</div>
@@ -100,7 +125,7 @@ const Board = () => {
                     <div className="profile-btn">
                         <LogoutButton />
                     </div>
-                </div>*/}
+                </div>
                 <form className="boardForm" onSubmit={onSubmit}>
                     <input
                         name="title"
@@ -109,7 +134,7 @@ const Board = () => {
                         onChange={onChange}
                     />
                     <textarea
-                        name="boardContent"
+                        name="body"
                         placeholder="여기를 눌러서 글을 작성할 수 있습니다."
                         value={inputs.body}
                         onChange={onChange}
@@ -130,7 +155,7 @@ const Board = () => {
                                 user_nick={row.user_nick}
                                 title={row.title}
                                 body={row.body}
-                                user_liked={true}
+                                user_liked={Boolean(row.user_liked)}
                                 like_cnt={row.like_cnt}
                                 comment_cnt={row.comment_cnt}
                                 onRemove={onRemove}

@@ -8,7 +8,6 @@ import DeleteButton from '../Board/DeleteButton';
 import "./card.scss";
 
 const Card = ({seq, created_at, user_nick, title, body, user_liked, like_cnt, comment_cnt, onRemove}) => {
-    //const currentUser = window.localStorage.getItem('userId');
     return (
         <>
             <div className="boardBox" key={seq}>

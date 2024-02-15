@@ -1,43 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../../utils/api";
 import vote from "../../assets/vote.png";
 
-
 const LikeButton = ({top_seq, user_liked, like_cnt}) => {
-    const [reload, setReload] = useState(false);
-    const [likeCounts, setLikeCounts] = useState(like_cnt);
+    const [likeCount, setLikeCount] = useState(like_cnt);
+    const [userLikedStyle, setUserLikedStyle] = useState({});
+    const [countStyle, setCountStyle] = useState({});
     const [userLiked, setUserLiked] = useState(user_liked);
-
-    const ifUserHasLiked = () => {
-
-    };
 
     const likeClick = async (e) => {
         e.preventDefault();
-        await api.post("/api/like", variables)
-            .then((response) => {
-                if (!response.data.success) {
-                    alert("좋아요 정보를 가져오는데 실패했습니다.");
-                    return;
+        await api.post("/api/like", {top_seq: top_seq, type_is: 'B', like_is: !userLiked})
+            .then((res) => {
+                const { data } = res;
+                console.info('좋아요 result',data);
+                if(data.success) {
+                    setUserLiked(data["resultData"].user_liked);
+                    setLikeCount(data["resultData"].like_cnt);
                 }
-                let responsedData = response.data.liked;
-                setUserLiked(responsedData);
+
             })
             .catch((e) => console.log(e));
     };
 
     useEffect(() => {
+        if(userLiked) {
+            console.log('좋아요 스타일 변경');
+            setUserLikedStyle({width: '12px', height: '12px', marginLeft: '10px'});
+        } else {
+            console.log('좋아요 해제 스타일 변경');
+            setUserLikedStyle({width: '12px', height: '12px', marginLeft: '10px', filter: 'grayScale(100%)'});
+        }
 
-    },[]);
+        if(likeCount > 0) {
+            setCountStyle({ display: 'inline-block', color: '#c62917', fontSize: '13px', paddingLeft: '4px'});
+        } else {
+            setCountStyle({ display: 'inline-block', color: '#575555', fontSize: '13px', paddingLeft: '4px'});
+        }
+    },[userLiked]);
+
 
     return (
         <>
             <button onClick={likeClick}>
-                <img style={{width: '12px', height: '12px', marginLeft: '10px'}}
-                     src={vote} alt="vote" />
-                <p style={{ display: 'inline-block', color: '#c62917',
-                    fontSize: '13px', paddingLeft: '4px'}}>
-                    {likeCounts}
+                <img style={userLikedStyle} src={vote} alt="vote" />
+                <p style={countStyle}>
+                    {likeCount}
                 </p>
             </button>
         </>

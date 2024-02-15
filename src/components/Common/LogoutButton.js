@@ -1,18 +1,17 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../../_actions/user_actions";
+import { useNavigate } from "react-router-dom";
+import { setAccToken, setReToken } from "../../redux/reducers/AuthReducer";
 
-const LogoutButton = props => {
+const LogoutButton = () => {
     const dispatch = useDispatch();
-    const handleLogout = () => {
-        dispatch(logoutUser()).then((response) => {
-            if (response.payload.logoutSuccess) {
-                window.localStorage.removeItem("userId");
-                props.history.push("/");
-            } else {
-                alert("로그아웃에 실패했습니다");
-            }
-        });
+    const navigate = useNavigate();
+    const handleLogout = (e) => {
+        e.preventDefault();
+        dispatch(setAccToken(""));
+        dispatch(setReToken(""));
+        alert("로그아웃 되었습니다😎");
+        navigate("/");
     };
 
     return (
