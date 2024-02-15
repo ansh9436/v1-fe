@@ -7,14 +7,17 @@ import Header from "../components/Common/Header";
 import Footer from "../components/Common/Footer";
 import Pagination from '@mui/material/Pagination';
 import "./board.scss";
-import CheckNickname from "../components/Board/CheckNickname";
 import UserProfile from "../components/Board/UserProfile";
 import LogoutButton from "../components/Common/LogoutButton";
 import {toast, ToastContainer} from "react-toastify";
+import checkWriter from "../assets/writeractive.png";
+import uncheckWriter from "../assets/writer.png";
+import writeIcon from "../assets/write.png";
 
 const Board = () => {
     const [searchParams] = useSearchParams();
     const [pageTotal, setPageTotal] = useState(0);
+    const [reloads, setReloads] = useState(1);
     const [page, setPage] = useState(()=>{
         if(searchParams.get("page")) {
             return Number(searchParams.get("page"));
@@ -23,26 +26,15 @@ const Board = () => {
         }
     });
     const [boardList, setBoardList] = useState([]);
-    const [WriterIcon, setWriterIcon] = useState(true);
-    const [BoardWriter, setBoardWriter] = useState("Y");
 
+    const [isAnonymous, setIsAnonymous] = useState(true);
     const [inputs, setInput] = useState({
         title: "",
         body: "",
     });
+    const [anon_yn, setAnon_yn] = useState('Y');
 
-    useEffect(() => {
-        const getBoardList = async () => {
-            const { data } = await api.get("/api/board", {params: {page: page}});
-            return data;
-        };
 
-        getBoardList()
-            .then(res => {
-                setBoardList(res["resultData"].contents);
-                setPageTotal(Number(res["resultData"]["pagination"]["pageTotal"]));
-            });
-    }, [page]);
 
     const onRemove = (/*id*/) => {
         //setContent(Content.filter((Content) => Content._id !== id));
@@ -58,14 +50,13 @@ const Board = () => {
     };
 
     const onIconClick = () => {
-        if (WriterIcon) {
-            setWriterIcon(false);
-            setBoardWriter("Y");
+        if(isAnonymous) {
+            setIsAnonymous(false);
+            setAnon_yn('Y');
         } else {
-            setWriterIcon(true);
-            setBoardWriter("N");
+            setIsAnonymous(true);
+            setAnon_yn('N');
         }
-        console.log('익명사용여부', BoardWriter);
     };
 
     const onSubmit = (e) => {
@@ -89,16 +80,15 @@ const Board = () => {
             });
             return;
         }
-        api.post("/api/board", inputs)
+        api.post("/api/board", {...inputs, anon_yn:anon_yn})
             .then((res) => {
                 const { data } = res;
                 if (data.success) {
                     setInput({
                         title: "",
-                        body: "",
-                        anon_yn: BoardWriter
+                        body: ""
                     });
-                    setPage(0);
+                    setReloads(enters => enters+1);
                 } else {
                     toast.error('게시글 업로드에 실패하였습니다.', {
                         position: "top-center",
@@ -111,6 +101,19 @@ const Board = () => {
                 });
             });
     }
+
+    useEffect(() => {
+        const getBoardList = async () => {
+            const { data } = await api.get(`/api/board?reloads=${reloads}`, {params: {page: page}});
+            return data;
+        };
+
+        getBoardList()
+            .then(res => {
+                setBoardList(res["resultData"].contents);
+                setPageTotal(Number(res["resultData"]["pagination"]["pageTotal"]));
+            });
+    }, [page, reloads])
 
     return (
         <>
@@ -139,14 +142,17 @@ const Board = () => {
                         value={inputs.body}
                         onChange={onChange}
                     />
-                    <CheckNickname
-                        icon={WriterIcon}
-                        click={onIconClick}
-                        submit={onSubmit}
-                    />
+                    <li className="checkButton"  onClick={onIconClick}>
+                        {isAnonymous
+                            ? <img className="inputIcon" src={checkWriter} alt={checkWriter} />
+                            : <img className="inputIcon" src={uncheckWriter} alt={uncheckWriter} />
+                        }
+                    </li>
+                    <li className="submitButton" onClick={onSubmit}>
+                        <img className="inputIcon" src={writeIcon} alt={writeIcon} />
+                    </li>
                 </form>
-                {
-                boardList.map((row, index) => {
+                {boardList.map((row, index) => {
                     return (
                         <React.Fragment key={index}>
                             <Card

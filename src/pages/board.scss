@@ -56,3 +56,25 @@ textarea {
     vertical-align: middle;
     flex-direction: column;
 }
+
+.checkButton {
+    position: absolute;
+    bottom: 0;
+    width: 38px;
+    height: 38px;
+    left: 10px;
+}
+
+.submitButton {
+    background-color: #c62917;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 38px;
+    height: 38px;
+}
+
+.inputIcon {
+    width: 38px;
+    height: 38px;
+}
