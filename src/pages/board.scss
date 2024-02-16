@@ -78,3 +78,33 @@ textarea {
     width: 38px;
     height: 38px;
 }
+
+.commentForm {
+    position: relative;
+    background-color: #fafafa;
+    margin: 0px -1px;
+    box-sizing: border-box;
+}
+
+.BackButton {
+    display: flex;
+    justify-content: center;
+    border: 1px solid #c62917;
+    border-radius: 4px;
+    width: 24%;
+    height: 36px;
+    margin: 12px 0;
+}
+
+.backTitle {
+    color: #c62917;
+    font-size: 13px;
+    line-height: 36px;
+    text-align: center;
+}
+.menuIcon {
+    width: 12px;
+    height: 12px;
+    padding: 12px 0;
+    margin-right: 4px;
+}

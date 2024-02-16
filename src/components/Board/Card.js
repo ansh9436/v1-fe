@@ -5,9 +5,13 @@ import CommentButton from './CommentButton';
 import UpdateTime from '../Common/UpdateTime';
 import profile from '../../assets/profile.png';
 import DeleteButton from '../Board/DeleteButton';
-import "./card.scss";
+import './card.scss';
+import store from "../../redux/configStore";
+import {jwtUtils} from "../../utils/jwtUtils";
 
-const Card = ({seq, created_at, user_nick, title, body, user_liked, like_cnt, comment_cnt, onRemove}) => {
+const Card = ({seq, created_at, user_email, user_nick, title, body, user_liked, like_cnt, comment_cnt, onRemove}) => {
+    const accToken = store.getState().Auth["accToken"];
+    const user = jwtUtils.getUser(accToken);
     return (
         <>
             <div className="boardBox" key={seq}>
@@ -19,10 +23,9 @@ const Card = ({seq, created_at, user_nick, title, body, user_liked, like_cnt, co
                             <UpdateTime time={created_at}/>
                         </div>
                     </span>
-                    <DeleteButton
-                        board={seq}
-                        onRemove={onRemove}
-                    />
+                    {user_email === user["user_email"] &&
+                        <DeleteButton board={seq} onRemove={onRemove} />
+                    }
                 </div>
                 <Link to={`/board/${seq}`}>
                     <div className="boardTitle">{title}</div>

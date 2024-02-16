@@ -1,12 +1,12 @@
 import React from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 
 const DeleteButton = ({seq, onRemove}) => {
     const onDelete = () => {
         const confirmDelete = window.confirm("삭제하시겠습니까?");
-        confirmDelete && axios.post(`/api/board/${seq}`)
-            .then(response => {
-                if(response.data.success) {
+        confirmDelete && api.delete(`/api/board/${seq}`)
+            .then(res => {
+                if(res.data.success) {
                     alert("게시글 삭제에 성공했습니다.");
                     onRemove(seq);
                 } else {

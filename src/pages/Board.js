@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import api from "../utils/api";
-import {Link, useSearchParams} from 'react-router-dom';
+import { Link, useSearchParams } from "react-router-dom";
 import StyledBox from "../components/Style/StyledBox";
 import Card from "../components/Board/Card";
 import Header from "../components/Common/Header";
 import Footer from "../components/Common/Footer";
-import Pagination from '@mui/material/Pagination';
+import Pagination from "@mui/material/Pagination";
 import "./board.scss";
 import UserProfile from "../components/Board/UserProfile";
 import LogoutButton from "../components/Common/LogoutButton";
@@ -26,19 +26,18 @@ const Board = () => {
         }
     });
     const [boardList, setBoardList] = useState([]);
-
-    const [isAnonymous, setIsAnonymous] = useState(true);
+    const [isClickIcon, setIsClickIcon] = useState(true); // 클릭시 상태값만 변경
     const [inputs, setInput] = useState({
         title: "",
         body: "",
     });
-    const [anon_yn, setAnon_yn] = useState('Y');
+    const [anon_yn, setAnon_yn] = useState('');
 
 
 
-    const onRemove = (/*id*/) => {
-        //setContent(Content.filter((Content) => Content._id !== id));
-    };
+    const onRemove = () => {
+        setReloads(enters => enters+1);
+    }
 
 
     const onChange = (e) => {
@@ -47,17 +46,7 @@ const Board = () => {
             ...inputs,
             [name]: value,
         });
-    };
-
-    const onIconClick = () => {
-        if(isAnonymous) {
-            setIsAnonymous(false);
-            setAnon_yn('Y');
-        } else {
-            setIsAnonymous(true);
-            setAnon_yn('N');
-        }
-    };
+    }
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -80,7 +69,7 @@ const Board = () => {
             });
             return;
         }
-        api.post("/api/board", {...inputs, anon_yn:anon_yn})
+        api.post("/api/board", {anon_yn:anon_yn, ...inputs})
             .then((res) => {
                 const { data } = res;
                 if (data.success) {
@@ -100,6 +89,21 @@ const Board = () => {
                     position: "top-center",
                 });
             });
+    }
+
+    // 클릭시 모드가 변경됨에 유의
+    const onIconClick = (ev) => {
+        const { alt } = ev.target;
+        if(alt === 'checkImg') {
+            setAnon_yn('N');
+            console.log('실명', alt, anon_yn);
+        } else {
+            setAnon_yn('Y');
+            console.log('익명', alt, anon_yn);
+        }
+        setIsClickIcon(() => {
+            return !isClickIcon;    // 값만 반전시켜 체크 언체크로 바꿈
+        });
     }
 
     useEffect(() => {
@@ -142,10 +146,12 @@ const Board = () => {
                         value={inputs.body}
                         onChange={onChange}
                     />
-                    <li className="checkButton"  onClick={onIconClick}>
-                        {isAnonymous
-                            ? <img className="inputIcon" src={checkWriter} alt={checkWriter} />
-                            : <img className="inputIcon" src={uncheckWriter} alt={uncheckWriter} />
+                    <li className="checkButton">
+                        {isClickIcon
+                            ? <img className="inputIcon" src={checkWriter}
+                                   alt='checkImg' onClick={onIconClick} />
+                            : <img className="inputIcon" src={uncheckWriter}
+                                   alt='unCheckImg' onClick={onIconClick} />
                         }
                     </li>
                     <li className="submitButton" onClick={onSubmit}>
@@ -158,6 +164,7 @@ const Board = () => {
                             <Card
                                 seq={row.seq}
                                 created_at={row.created_at}
+                                user_email={row.user_email}
                                 user_nick={row.user_nick}
                                 title={row.title}
                                 body={row.body}

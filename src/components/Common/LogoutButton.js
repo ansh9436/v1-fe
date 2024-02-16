@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setAccToken, setReToken } from "../../redux/reducers/AuthReducer";
+import { setAccToken } from "../../redux/reducers/AuthReducer";
 
 const LogoutButton = () => {
     const dispatch = useDispatch();
@@ -9,7 +9,6 @@ const LogoutButton = () => {
     const handleLogout = (e) => {
         e.preventDefault();
         dispatch(setAccToken(""));
-        dispatch(setReToken(""));
         alert("로그아웃 되었습니다😎");
         navigate("/");
     };
