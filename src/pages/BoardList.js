@@ -2,22 +2,22 @@ import React, { useEffect, useState } from "react";
 import api from "../utils/api";
 import { Link, useSearchParams } from "react-router-dom";
 import StyledBox from "../components/Style/StyledBox";
-import Card from "../components/Board/Card";
+import BoardCard from "../components/Board/BoardCard";
 import Header from "../components/Common/Header";
 import Footer from "../components/Common/Footer";
 import Pagination from "@mui/material/Pagination";
 import "./board.scss";
 import UserProfile from "../components/Board/UserProfile";
 import LogoutButton from "../components/Common/LogoutButton";
-import {toast, ToastContainer} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import checkWriter from "../assets/writeractive.png";
 import uncheckWriter from "../assets/writer.png";
 import writeIcon from "../assets/write.png";
 
-const Board = () => {
+const BoardList = () => {
     const [searchParams] = useSearchParams();
     const [pageTotal, setPageTotal] = useState(0);
-    const [reloads, setReloads] = useState(1);
+    const [reload, setReload] = useState(1);
     const [page, setPage] = useState(()=>{
         if(searchParams.get("page")) {
             return Number(searchParams.get("page"));
@@ -36,7 +36,7 @@ const Board = () => {
 
 
     const onRemove = () => {
-        setReloads(enters => enters+1);
+        setReload(enters => enters+1);
     }
 
 
@@ -77,7 +77,7 @@ const Board = () => {
                         title: "",
                         body: ""
                     });
-                    setReloads(enters => enters+1);
+                    setReload(enters => enters+1);
                 } else {
                     toast.error('게시글 업로드에 실패하였습니다.', {
                         position: "top-center",
@@ -108,7 +108,7 @@ const Board = () => {
 
     useEffect(() => {
         const getBoardList = async () => {
-            const { data } = await api.get(`/api/board?reloads=${reloads}`, {params: {page: page}});
+            const { data } = await api.get(`/api/board?reload=${reload}`, {params: {page: page}});
             return data;
         };
 
@@ -117,7 +117,7 @@ const Board = () => {
                 setBoardList(res["resultData"].contents);
                 setPageTotal(Number(res["resultData"]["pagination"]["pageTotal"]));
             });
-    }, [page, reloads])
+    }, [page, reload])
 
     return (
         <>
@@ -161,10 +161,10 @@ const Board = () => {
                 {boardList.map((row, index) => {
                     return (
                         <React.Fragment key={index}>
-                            <Card
+                            <BoardCard
                                 seq={row.seq}
-                                created_at={row.created_at}
-                                user_email={row.user_email}
+                                created_at={row["created_at"]}
+                                writer_yn={row["writer_yn"]}
                                 user_nick={row.user_nick}
                                 title={row.title}
                                 body={row.body}
@@ -172,6 +172,7 @@ const Board = () => {
                                 like_cnt={row.like_cnt}
                                 comment_cnt={row.comment_cnt}
                                 onRemove={onRemove}
+                                page={page}
                             />
                         </React.Fragment>
                     );
@@ -195,4 +196,4 @@ const Board = () => {
     );
 };
 
-export default Board;
+export default BoardList;

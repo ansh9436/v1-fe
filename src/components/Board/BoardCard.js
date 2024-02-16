@@ -6,12 +6,9 @@ import UpdateTime from '../Common/UpdateTime';
 import profile from '../../assets/profile.png';
 import DeleteButton from '../Board/DeleteButton';
 import './card.scss';
-import store from "../../redux/configStore";
-import {jwtUtils} from "../../utils/jwtUtils";
 
-const Card = ({seq, created_at, user_email, user_nick, title, body, user_liked, like_cnt, comment_cnt, onRemove}) => {
-    const accToken = store.getState().Auth["accToken"];
-    const user = jwtUtils.getUser(accToken);
+const BoardCard = ({seq, created_at, writer_yn, user_nick, title,
+                       body, user_liked, like_cnt, comment_cnt, onRemove, page}) => {
     return (
         <>
             <div className="boardBox" key={seq}>
@@ -23,7 +20,7 @@ const Card = ({seq, created_at, user_email, user_nick, title, body, user_liked, 
                             <UpdateTime time={created_at}/>
                         </div>
                     </span>
-                    {user_email === user["user_email"] &&
+                    {writer_yn === 'Y' &&
                         <DeleteButton board={seq} onRemove={onRemove} />
                     }
                 </div>
@@ -46,4 +43,4 @@ const Card = ({seq, created_at, user_email, user_nick, title, body, user_liked, 
     )
 };
 
-export default Card;
+export default BoardCard;

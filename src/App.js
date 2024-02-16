@@ -2,8 +2,8 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Board from "./pages/Board";
-import BoardDetail from "./pages/BoardDetil";
+import BoardList from "./pages/BoardList";
+import BoardDetail from "./pages/BoardDetail";
 
 const App = () => {
     return (
@@ -13,7 +13,7 @@ const App = () => {
                     <Route path="/" element={<Login/>} />
                     <Route path="/login" element={<Login/>} />
                     <Route path="/register" element={<Register/>} />
-                    <Route path="/board" element={<Board/>} />
+                    <Route path="/board" element={<BoardList/>} />
                     <Route path="/board/:seq" element={<BoardDetail/>} />
                 </Routes>
             </div>
