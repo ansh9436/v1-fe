@@ -65,13 +65,21 @@ textarea {
     left: 10px;
 }
 
-.submitButton {
+.submitButtonDetail {
     background-color: #c62917;
     position: absolute;
     bottom: 0;
     right: 0;
     width: 38px;
-    height: 38px;
+    height: 40px;
+}
+
+.submitButtonList {
+    background-color: #c62917;
+    position: absolute;
+    right: 0;
+    width: 38px;
+    height: 37.4px;
 }
 
 .inputIcon {
@@ -86,7 +94,7 @@ textarea {
     box-sizing: border-box;
 }
 
-.BackButton {
+.backButton {
     display: flex;
     justify-content: center;
     border: 1px solid #c62917;
@@ -107,4 +115,20 @@ textarea {
     height: 12px;
     padding: 12px 0;
     margin-right: 4px;
+}
+
+.commentInput {
+    background-color: transparent;
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 13px;
+    line-height: 40px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+.Toastify__toast {
+    background-color: black;
+    color: white;
 }

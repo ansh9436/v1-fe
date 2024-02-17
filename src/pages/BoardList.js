@@ -6,7 +6,7 @@ import BoardCard from "../components/Board/BoardCard";
 import Header from "../components/Common/Header";
 import Footer from "../components/Common/Footer";
 import Pagination from "@mui/material/Pagination";
-import "./board.scss";
+import "./Board.scss";
 import UserProfile from "../components/Board/UserProfile";
 import LogoutButton from "../components/Common/LogoutButton";
 import { toast, ToastContainer } from "react-toastify";
@@ -51,23 +51,26 @@ const BoardList = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         if (inputs.title.trim().length === 0) {
-            toast.success(<h3>제목을 입력해 주세요!</h3>, {
+            toast(<h3>제목을 입력해 주세요!</h3>, {
+                hideProgressBar: true,
                 position: "top-center",
                 autoClose: 2000
             });
             return false;
         } else if (inputs.body.trim().length === 0) {
-            toast.success(<h3>내용을 입력해 주세요!</h3>, {
+            toast(<h3>내용을 입력해 주세요!</h3>, {
+                hideProgressBar: true,
                 position: "top-center",
                 autoClose: 2000
             });
             return false;
         } else if (inputs.body.trim().length > 300) {
-            toast.success(<h3>내용을 300자 이내로 작성해주세요!</h3>, {
+            toast(<h3>내용을 300자 이내로 작성해주세요!</h3>, {
+                hideProgressBar: true,
                 position: "top-center",
                 autoClose: 2000
             });
-            return;
+            return false;
         }
         api.post("/api/board", {anon_yn:anon_yn, ...inputs})
             .then((res) => {
@@ -89,6 +92,7 @@ const BoardList = () => {
                     position: "top-center",
                 });
             });
+        return true;
     }
 
     // 클릭시 모드가 변경됨에 유의
@@ -116,6 +120,8 @@ const BoardList = () => {
             .then(res => {
                 setBoardList(res["resultData"].contents);
                 setPageTotal(Number(res["resultData"]["pagination"]["pageTotal"]));
+            }).catch(err => {
+                console.log(err);
             });
     }, [page, reload])
 
@@ -154,7 +160,7 @@ const BoardList = () => {
                                    alt='unCheckImg' onClick={onIconClick} />
                         }
                     </li>
-                    <li className="submitButton" onClick={onSubmit}>
+                    <li className="submitButtonList" onClick={onSubmit}>
                         <img className="inputIcon" src={writeIcon} alt={writeIcon} />
                     </li>
                 </form>

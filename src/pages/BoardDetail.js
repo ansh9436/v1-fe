@@ -1,16 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import {Link, useParams}              from 'react-router-dom';
-import api                            from "../utils/api";
-import Header from '../components/Common/Header';
-import BoardCard from '../components/Board/BoardCard';
-import CommentCard from '../components/Board/CommentCard';
-import menu from '../assets/menu.png';
-import "./board.scss";
-import checkWriter from "../assets/writeractive.png";
-import uncheckWriter from "../assets/writer.png";
+import React, { useEffect, useState }     from 'react';
+import {Link, useParams, useSearchParams} from 'react-router-dom';
+import api                                from "../utils/api";
+import Header                         from '../components/Common/Header';
+import BoardCard                      from '../components/Board/BoardCard';
+import CommentCard                    from '../components/Board/CommentCard';
+import menu                           from '../assets/menu.png';
+import "./Board.scss";
+import checkWriter                    from "../assets/writeractive.png";
+import uncheckWriter                  from "../assets/writer.png";
+import writeIcon                      from "../assets/write.png";
+import { toast, ToastContainer } from "react-toastify";
 
 const BoardDetail = () => {
     const { seq } = useParams();
+    const [searchParams] = useSearchParams();
+    const [page] = useState(()=>{
+        if(searchParams.get("page")) {
+            return Number(searchParams.get("page"));
+        } else {
+            return 1;
+        }
+    });
     const [commentList, setCommentList] = useState([]);
     const [boardDetail, setBoardDetail] = useState([]);
     const [body, setBody] = useState("");
@@ -18,12 +28,11 @@ const BoardDetail = () => {
     const [anon_yn, setAnon_yn] = useState('');
     const [commentReload, setCommentReload] = useState(1);
 
-    const onRemoveBoard = (seq) => {
-        //setBoardDetail(BoardDetail.filter(BoardDetail => BoardDetail._id !== id))
-        //props.history.push("/")
+    const onRemoveBoard = () => {
+        // 리스트로 리다이렉션
     }
-    const onRemoveComment = (seq) => {
-        //setComments(Comments.filter(Comments => Comments._id !==id))
+    const onRemoveComment = () => {
+        setCommentReload(enters => enters+1);
     }
     const onChange = (e) => {
         setBody(e.currentTarget.value);
@@ -31,14 +40,27 @@ const BoardDetail = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        if (body.trim().length === 0 || body.trim().length > 100) {
+            toast(<h3>100자 이내로 작성해주세요!</h3>, {
+                position: "top-center",
+                hideProgressBar: true,
+                autoClose: 2000
+            });
+            return false;
+        }
         api.post('/api/comment', {top_seq:seq, body:body, anon_yn:anon_yn})
             .then(res => {
                 if(res.data.success) {
-                    alert("댓글이 등록되었습니다.");
+                    toast.success(<h3>댓글 작성이 완료 되었습니다.</h3>, {
+                        position: "top-center",
+                        hideProgressBar: true,
+                        autoClose: 2000
+                    });
                     setBody("");
                     setCommentReload(enters => enters+1);
                 }
             })
+        return true;
     }
 
     // 클릭시 모드가 변경됨에 유의
@@ -68,28 +90,29 @@ const BoardDetail = () => {
         }
 
         getBoardDetail()
-            .then((res) => {
-                if(res.data.success) {
-                    setCommentList(res.data["resultData"].contents);
-                } else {
-                    alert("댓글을 보여줄 수 없습니다.");
+            .then((data) => {
+                if(data.success) {
+                    setBoardDetail([data["resultData"]]);
                 }
-            })
+            }).catch(err => {
+                console.log(err);
+            });
 
         getCommentList()
-            .then(res => {
-                if(res.data.success) {
-                    setBoardDetail([res.data["resultData"]]);
-                } else {
-                    alert("게시글 가져오기에 실패했습니다.");
+            .then(data => {
+                if(data.success) {
+                    setCommentList(data["resultData"].contents);
                 }
-            })
-        
+            }).catch(err => {
+                console.log(err);
+            });
+
     }, [commentReload, seq]);
 
     return (
         <div>
-            <Header title="자유게시판" link="/board"/>
+            <Header title="자유게시판" link="/board" />
+            <ToastContainer/>
             { boardDetail.map((row, index) => {
                 return(
                     <React.Fragment key={index}>
@@ -103,14 +126,15 @@ const BoardDetail = () => {
                             user_liked={Boolean(row.user_liked)}
                             like_cnt={row.like_cnt}
                             comment_cnt={row.comment_cnt}
-                            onRemove={onRemoveBoard()}
+                            writer_yn={row.writer_yn}
+                            onRemove={onRemoveBoard}
                         />
                     </React.Fragment>
                 )})
             }
             <form className="commentForm" onSubmit={onSubmit}>
                 <input className="commentInput"
-                    name="Comment"
+                    name="body"
                     placeholder="댓글을 작성해주세요."
                     value={body}
                     onChange={onChange}
@@ -123,6 +147,9 @@ const BoardDetail = () => {
                                alt='unCheckImg' onClick={onIconClick} />
                     }
                 </li>
+                <li className="submitButtonDetail" onClick={onSubmit}>
+                    <img className="inputIcon" src={writeIcon} alt={writeIcon} />
+                </li>
             </form>
             { commentList.map((row, index) => {
                 return(
@@ -132,12 +159,14 @@ const BoardDetail = () => {
                             time={row.createdAt}
                             user_nick={row.user_nick}
                             body={row.body}
+                            created_at={row.created_at}
                             onRemove={onRemoveComment}
+                            writer_yn={row.writer_yn}
                         />
                     </React.Fragment>
                 )})
             }
-            <Link to="/board">
+            <Link to={`/board?page=${page}`}>
                 <div className="backButton">
                     <img className="menuIcon" src={menu} alt="menu" />
                     <span className="backTitle">글 목록</span>
