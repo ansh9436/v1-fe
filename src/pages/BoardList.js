@@ -31,7 +31,7 @@ const BoardList = () => {
         title: "",
         body: "",
     });
-    const [anon_yn, setAnon_yn] = useState('');
+    const [anon_yn, setAnon_yn] = useState('Y');
 
 
 
@@ -80,7 +80,11 @@ const BoardList = () => {
                         title: "",
                         body: ""
                     });
-                    setReload(enters => enters+1);
+                    if(page > 1) {
+                        setPage(1);
+                    } else {
+                        setReload(enters => enters+1);
+                    }
                 } else {
                     toast.error('게시글 업로드에 실패하였습니다.', {
                         position: "top-center",

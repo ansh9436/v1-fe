@@ -1,11 +1,34 @@
 import React        from "react";
 import profile      from "../../assets/profile.png";
-import UpdateTime   from "../Common/UpdateTime";
-import DeleteButton from "../Board/DeleteButton";
 import "./CommentCard.scss";
 import moment from "moment";
+import api from "../../utils/api";
+import {utils} from "../../utils/utils";
+import {toast} from "react-toastify";
 
 const CommentCard = ({seq, user_nick, body, created_at, onRemove, writer_yn}) => {
+    const onCommentDelete = () => {
+        const confirmDelete = window.confirm("댓글을 삭제하시겠습니까?");
+        confirmDelete && api.delete(`/api/comment`, {data:{seq: seq}})
+            .then(res => {
+                if(res.data.success) {
+                    toast.success(<h3>댓글 삭제에 했습니다.!</h3>, {
+                        position: "top-center",
+                        hideProgressBar: true,
+                        autoClose: 2000
+                    });
+                    onRemove();
+                }
+            })
+            .catch(err => {
+                toast.error(err.response.data.message+ "😭", {
+                    position: "top-center",
+                    hideProgressBar: true,
+                    autoClose: 2000
+                });
+            })
+
+    }
 
     return (
         <>
@@ -16,12 +39,15 @@ const CommentCard = ({seq, user_nick, body, created_at, onRemove, writer_yn}) =>
                         <p className="commentUserID">{user_nick}</p>
                     </span>
                     { writer_yn === 'Y' &&
-                        <DeleteButton seq={seq} onRemove={onRemove} type={'C'} />
+                        <button style={{color: "#c62912",fontSize: "12px",lineHeight: "22px"}} onClick={onCommentDelete}>
+                            삭제
+                        </button>
                     }
                 </div>
                 <div className="commentContent">{body}</div>
                 <div className="commentTime">
-                    <UpdateTime time={moment(created_at).add(9, 'h')}/>
+                    {utils.getUpdateTime(moment(created_at).add(9, 'h'))}
+                    {/*<UpdateTime time={moment(created_at).add(9, 'h')}/>*/}
                 </div>
             </div>
         </>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import profile from "../../assets/profile.png";
 import { Link } from 'react-router-dom';
 import {useSelector} from "react-redux";
-import {jwtUtils} from "../../utils/jwtUtils";
+import {utils} from "../../utils/utils";
 
 
 const ProfileImage = styled["img"]`
@@ -28,7 +28,7 @@ const UserProfile = (boardPage) => {
     const accToken = useSelector(state => state.Auth.accToken);
 
     if (boardPage) {
-        const user = jwtUtils.getUser(accToken);
+        const user = utils.getUser(accToken);
 
         return (
             <div>

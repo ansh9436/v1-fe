@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { jwtUtils } from "../utils/jwtUtils";
+import { utils } from "../utils/utils";
 import { useSelector } from "react-redux";
 
 const PrivateRoute = (props) => {
@@ -13,7 +13,7 @@ const PrivateRoute = (props) => {
     });
     const {component: RouteComponent, path} = props;
     // redirectUrl 은 로그인이 성공후 돌아갈 화면이다.
-    if (!jwtUtils.isAuth(token)) {
+    if (!utils.isAuth(token)) {
         alert("로그인이 필요한 페이지입니다");
         return <Navigate to={`/login?redirectUrl=${path}`}/>;
     }

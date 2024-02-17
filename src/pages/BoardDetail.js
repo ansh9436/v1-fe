@@ -25,7 +25,7 @@ const BoardDetail = () => {
     const [boardDetail, setBoardDetail] = useState([]);
     const [body, setBody] = useState("");
     const [isClickIcon, setIsClickIcon] = useState(true); // 클릭시 상태값만 변경
-    const [anon_yn, setAnon_yn] = useState('');
+    const [anon_yn, setAnon_yn] = useState('Y');
     const [commentReload, setCommentReload] = useState(1);
 
     const onRemoveBoard = () => {
