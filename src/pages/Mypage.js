@@ -17,7 +17,7 @@ const Mypage = () => {
                     <Link to="/mypage/email">이메일 변경</Link>
                 </li>
                 <li className='boxMenu'>
-                    <Link to="/mypage/password">비밀번호 변경</Link>
+                    <Link to="/mypage/passwd">비밀번호 변경</Link>
                 </li>
             </StyledBox>
             <StyledBox>
