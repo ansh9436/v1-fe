@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import './register.scss';
+import './Register.scss';
 
 
 const Register = () => {

@@ -111,7 +111,7 @@ const BoardDetail = () => {
 
     return (
         <div>
-            <Header title="자유게시판" link="/board" />
+            <Header title="자유게시판" topLink="/board" isBackButton={true}  />
             <ToastContainer/>
             { boardDetail.map((row, index) => {
                 return(

@@ -1,27 +1,48 @@
-import React from "react";
-import { Route, withRouter } from "react-router-dom";
-import PageList from "../components/MyPage/PageList";
-import Nickname from "../components/MyPage/Section/Nickname";
-import Email from "../components/MyPage/Section/Email";
-import Password from "../components/MyPage/Section/Password";
-import MyBoardList from "../components/MyPage/Section/MyBoardList";
-import Comment from "../components/MyPage/Section/Comment";
-import Favorite from "../components/MyPage/Section/Favorite";
-import WithDrawal from "../components/MyPage/Section/WithDrawal";
+import React from 'react';
+import { Link } from "react-router-dom";
+import Header from "../components/Common/Header";
+import StyledBox from '../components/Style/StyledBox';
+import LogoutButton from '../components/Common/LogoutButton';
 
-function MyPage({ match }) {
+const Mypage = () => {
     return (
         <>
-            <Route exact path={match.path} component={PageList} />
-            <Route path={`${match.path}/nickname`} component={Nickname} />
-            <Route path={`${match.path}/email`} component={Email} />
-            <Route path={`${match.path}/password`} component={Password} />
-            <Route path={`${match.path}/boardlist`} component={MyBoardList} />
-            <Route path={`${match.path}/comment`} component={Comment} />
-            <Route path={`${match.path}/favorite`} component={Favorite} />
-            <Route path={`${match.path}/withdrawal`} component={WithDrawal} />
+            <Header title="마이페이지" topLink="/mypage" isBackButton={true} backLink={'/board'}/>
+            <StyledBox>
+                <li className='boxTitle'>계정</li>
+                <li className='boxMenu'>
+                    <Link to="/mypage/nickname">닉네임 설정</Link>
+                </li>
+                <li className='boxMenu'>
+                    <Link to="/mypage/email">이메일 변경</Link>
+                </li>
+                <li className='boxMenu'>
+                    <Link to="/mypage/password">비밀번호 변경</Link>
+                </li>
+            </StyledBox>
+            <StyledBox>
+                <li className='boxTitle'>커뮤니티</li>
+                <li className='boxMenu'>
+                    <Link to="/mypage/board">내가 쓴 글</Link>
+                </li>
+                <li className='boxMenu'>
+                    <Link to="/mypage/comment">내가 댓글 단 글</Link>
+                </li>
+                <li className='boxMenu'>
+                    <Link to="/mypage/favorite">내가 좋아한 글</Link>
+                </li>
+            </StyledBox>
+            <StyledBox>
+                <li className='boxTitle'>기타</li>
+                <li className='boxMenu'>
+                    <LogoutButton/>
+                </li>
+                <li className='boxMenu'>
+                    <Link to="/mypage/withdrawal">회원탈퇴</Link>
+                </li>
+            </StyledBox>
         </>
     );
 }
 
-export default withRouter(MyPage);
+export default Mypage;

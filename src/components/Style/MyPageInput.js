@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Input = styled.input`
+const Input = styled["input"]`
     background-color: #f9f9f9;
     width: 100%;
     height: 40px;
@@ -12,10 +12,8 @@ const Input = styled.input`
     box-sizing: border-box;
 `;
 
-function MyPageInput({...children}) {
-    return (
-        <Input {...children} />
-    )
-}
+const MyPageInput = ({...children}) => (
+    <Input {...children} />
+);
 
 export default MyPageInput;

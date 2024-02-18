@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Title = styled.h2`
+const Title = styled["h2"]`
     color: #757575;
     font-size: 12px;
     font-weight: bold;
@@ -10,12 +10,10 @@ const Title = styled.h2`
     margin-top: 10px;
 `;
 
-function MyPageTitle({children}) {
-    return (
-        <Title>
-            {children}
-        </Title>
-    )
-}
+const MyPageTitle = ({children}) => (
+    <Title>
+        {children}
+    </Title>
+);
 
 export default MyPageTitle;

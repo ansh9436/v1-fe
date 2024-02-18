@@ -1,4 +1,4 @@
-.styledHeader {
+.headerStyle {
     display: flex;
     color: #353535;
     background-color: #fff;
@@ -25,20 +25,17 @@
     padding-left: 8px;
 }
 
-ㅊ
-
-
-
-.border {
+.headerBackButton {
     border: 1px solid #f8e1e0;
-    width: 24px;
-    height: 24px;
+    width: 12px;
+    height: 12px;
     margin-right: 12px;
     border-radius: 4px;
     vertical-align: middle;
     cursor: pointer;
 }
 
-.back {
-    width: 10px;
+.headerBackButtonArea {
+    line-height: 56px;
+    margin-right: 4px;
 }

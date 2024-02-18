@@ -1,26 +1,27 @@
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../../assets/logo.png";
-import back from "../../assets/cancel.png";
-import "./header.scss";
+import logoImg from "../../assets/logo.png";
+import backImg from "../../assets/cancel.png";
+import "./Header.scss";
 
-const Header = (props) => {
+const Header = ({ title, topLink, isBackButton, backLink }) => {
     const navigate = useNavigate();
+    const clickLocation = () => {
+        backLink ? navigate(backLink) : navigate(-1);
+    }
 
     return (
-        <div className="styledHeader">
+        <div className="headerStyle">
             <div style={{width: '140px'}}>
-                <Link to={props.link}>
-                    <img className="logo" src={logo} alt="logo" />
+                <Link to={topLink}>
+                    <img className="logo" src={logoImg} alt="logo" />
                 </Link>
-                <span className="headerTitle">{props.title}</span>
+                <span className="headerTitle">{title}</span>
             </div>
-            {props.backbutton &&
-            <div className="backButton">
-                <button className="Border" onClick={() => navigate(-1)}>
-                    <img className="back" src={back} alt="이전메뉴" />
-                </button>
-            </div>
+            {isBackButton &&
+                <div className="headerBackButtonArea">
+                    <img className="headerBackButton" src={backImg} alt="이전메뉴" onClick={clickLocation}/>
+                </div>
             }
         </div>
     );
