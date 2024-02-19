@@ -9,6 +9,7 @@ import MypageNickname from "./pages/MypageNickname";
 import MypageEmail from "./pages/MypageEmail";
 import MypagePasswd from "./pages/MypagePasswd";
 import MypageWithdrawal from "./pages/MypageWithdrawal";
+import MypageBoard from "./pages/MypageBoard";
 
 const App = () => {
     return (
@@ -25,6 +26,7 @@ const App = () => {
                     <Route path="/mypage/email" element={<MypageEmail/>} />
                     <Route path="/mypage/passwd" element={<MypagePasswd/>} />
                     <Route path="/mypage/withdrawal" element={<MypageWithdrawal/>} />
+                    <Route path="/mypage/board/:myBoardAct" element={<MypageBoard/>} />
                 </Routes>
             </div>
         </React.Fragment>

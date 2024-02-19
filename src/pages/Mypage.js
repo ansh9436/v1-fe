@@ -23,7 +23,7 @@ const Mypage = () => {
             <StyledBox>
                 <li className='boxTitle'>커뮤니티</li>
                 <li className='boxMenu'>
-                    <Link to="/mypage/board">내가 쓴 글</Link>
+                    <Link to="/mypage/board/BOARD">내가 쓴 글</Link>
                 </li>
                 <li className='boxMenu'>
                     <Link to="/mypage/comment">내가 댓글 단 글</Link>
