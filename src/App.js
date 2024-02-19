@@ -26,7 +26,7 @@ const App = () => {
                     <Route path="/mypage/email" element={<MypageEmail/>} />
                     <Route path="/mypage/passwd" element={<MypagePasswd/>} />
                     <Route path="/mypage/withdrawal" element={<MypageWithdrawal/>} />
-                    <Route path="/mypage/board/:myBoardAct" element={<MypageBoard/>} />
+                    <Route path="/mypage/posted/:type" element={<MypageBoard/>} />
                 </Routes>
             </div>
         </React.Fragment>

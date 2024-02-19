@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Header from "../components/Common/Header";
 import StyledBox from '../components/Style/StyledBox';
 import LogoutButton from '../components/Common/LogoutButton';
+import Footer from "../components/Common/Footer";
+import "./Mypage.scss";
 
 const Mypage = () => {
     return (
@@ -23,13 +25,13 @@ const Mypage = () => {
             <StyledBox>
                 <li className='boxTitle'>커뮤니티</li>
                 <li className='boxMenu'>
-                    <Link to="/mypage/board/BOARD">내가 쓴 글</Link>
+                    <Link to="/mypage/posted/board">내가 쓴 글</Link>
                 </li>
                 <li className='boxMenu'>
-                    <Link to="/mypage/comment">내가 댓글 단 글</Link>
+                    <Link to="/mypage/posted/comment">내가 댓글 단 글</Link>
                 </li>
                 <li className='boxMenu'>
-                    <Link to="/mypage/favorite">내가 좋아한 글</Link>
+                    <Link to="/mypage/posted/like">내가 좋아한 글</Link>
                 </li>
             </StyledBox>
             <StyledBox>
@@ -41,6 +43,7 @@ const Mypage = () => {
                     <Link to="/mypage/withdrawal">회원탈퇴</Link>
                 </li>
             </StyledBox>
+            <Footer />
         </>
     );
 }
