@@ -1,19 +1,16 @@
 import React from 'react';
-import styled from 'styled-components';
 
-const Title = styled["h2"]`
-    color: #757575;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 24px;
-    padding-left: 4px;
-    margin-top: 10px;
-`;
+const MyPageTitle = ({children}) => {
+    const myTitle = {
+        color: '#757575',
+        fontSize: '12px',
+        fontWeight: 'bold',
+        lineHeight: '24px',
+        paddingLeft: '4px',
+        marginTop: '10px'
+    };
 
-const MyPageTitle = ({children}) => (
-    <Title>
-        {children}
-    </Title>
-);
+    return <h2 style={myTitle}>{children}</h2>;
+}
 
 export default MyPageTitle;

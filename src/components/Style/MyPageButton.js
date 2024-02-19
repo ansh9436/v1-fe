@@ -1,19 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
 
-const Button = styled["button"]`
-    background-color: #c62917;
-    color: #fff;
-    width: 100%;
-    height: 40px;
-    font-size: 15px;
-    text-align: center;
-    border-radius: 10px;
-    margin: ${(props) => props.margin || "30px 0px 20px 0px"};
-`;
-
-const MyPageButton = ({children, margin}) => (
-    <Button type="submit" margin={margin}>{children}</Button>
-);
+const MyPageButton = ({children, margin}) => {
+    const myButton = {
+            backgroundColor: '#c62917',
+            color: '#fff',
+            width: '100%',
+            height: '40px',
+            fontSize: '15px',
+            textAlign: 'center',
+            borderRadius: '10px',
+            margin: margin ? margin:'30px 0 20px 0'
+    };
+    return <button style={myButton} type="submit" >{children}</button>;
+}
 
 export default MyPageButton;

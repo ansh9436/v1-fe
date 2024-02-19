@@ -132,7 +132,7 @@ const BoardList = () => {
     return (
         <>
             <Header title="자유게시판" topLink="/board" />
-            <StyledBox backColor="#fafafa" padding="10px 0px" lineHeight="auto">
+            <StyledBox backgroundColor="#fafafa" padding="10px 0px" lineHeight="auto">
                 <ToastContainer/>
                 <div className="profile-box">
                     <UserProfile boardPage={true} />
