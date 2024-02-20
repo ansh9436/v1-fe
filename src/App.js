@@ -10,11 +10,13 @@ import MypageEmail from "./pages/MypageEmail";
 import MypagePasswd from "./pages/MypagePasswd";
 import MypageWithdrawal from "./pages/MypageWithdrawal";
 import MypageBoard from "./pages/MypageBoard";
+import ScrollToTop from "./components/Common/ScrollToTop";
 
 const App = () => {
     return (
         <React.Fragment>
             <div style={{margin: '10px auto',width: '370px'}}>
+                <ScrollToTop />
                 <Routes>
                     <Route path="/" element={<Login/>} />
                     <Route path="/login" element={<Login/>} />

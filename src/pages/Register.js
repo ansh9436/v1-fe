@@ -84,9 +84,9 @@ const Register = () => {
         const { user_email, user_passwd, user_nick } = values;
         try {
             await axios.post("/api/join", {
-                user_email,
-                user_passwd,
-                user_nick,
+                user_email: user_email,
+                user_passwd: user_passwd,
+                user_nick: user_nick,
             }).then(res => {
                 console.log('res', res);
                 if(res.data.success) {
@@ -108,7 +108,8 @@ const Register = () => {
                 position: "top-center",
             });
         }
-    };
+    }
+
     return (
         <Formik
             initialValues={{
