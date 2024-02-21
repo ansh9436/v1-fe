@@ -5,11 +5,20 @@ import StyledBox from '../components/Style/StyledBox';
 import LogoutButton from '../components/Common/LogoutButton';
 import Footer from "../components/Common/Footer";
 import "./Mypage.scss";
+import UserProfile from "../components/Mypage/UserProfile";
 
 const Mypage = () => {
     return (
         <>
             <Header title="마이페이지" topLink="/mypage" isBackButton={true} backLink={'/board'}/>
+            <StyledBox padding="10px 0" lineHeight="auto">
+                <div className="profile-box">
+                    <UserProfile/>
+                    <div className="profile-btn">
+                        <LogoutButton />
+                    </div>
+                </div>
+            </StyledBox>
             <StyledBox>
                 <li className='boxTitle'>계정</li>
                 <li className='boxMenu'>
@@ -43,6 +52,7 @@ const Mypage = () => {
                     <Link to="/mypage/withdrawal">회원탈퇴</Link>
                 </li>
             </StyledBox>
+
             <Footer />
         </>
     );

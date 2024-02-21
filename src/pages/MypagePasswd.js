@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import api from '../utils/api';
 import Header from '../components/Common/Header';
 import Footer from '../components/Common/Footer';
@@ -7,12 +7,12 @@ import MyPageTitle from '../components/Style/MyPageTitle';
 import MyPageInput from '../components/Style/MyPageInput';
 import MyPageButton from '../components/Style/MyPageButton';
 import * as Yup from "yup";
-import {Formik} from "formik";
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import { Formik } from "formik";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import {jwtUtils} from "../utils/utils";
 
 const MypagePasswd = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const titleBox = {
@@ -59,23 +59,38 @@ const MypagePasswd = () => {
             .required("비밀번호 확인을 입력하세요!"),
         user_passwd: Yup.string()
             .required("비밀번호를 입력하세요!"),
-    })
+    });
 
     const onSubmitPasswd = async(values) => {
-            await api.post('/user/update/password', body)
-                .then((response) => {
-                    if(!response.data.success) {
-                        alert(response.data.message);
+        const { user_passwd, change_passwd } = values;
+            await api.put('/api/mypage', {
+                user_passwd: user_passwd,
+                change_passwd: change_passwd,
+                type: 'passwd'
+            })
+                .then((res) => {
+                    if(res.data.success) {
+                        jwtUtils.clearToken();
+                        toast.success(<h3>비밀번호가 변경 완료되었습니다.<br/>다시 로그인 하세요😎</h3>, {
+                            position: "top-center",
+                            autoClose: 2000
+                        });
+                        setTimeout(()=> {
+                            navigate("/login");
+                        }, 2000);
                     } else {
-                        if(response.data.success) {
-                            window.location.href("/mypage");
-                            alert("비밀번호가 변경되었습니다.")
+                        if(res.data.message === 'MypagePasswordNotCompare') {
+                            toast.error("비밀번호가 일치하지 않습니다.😭", {
+                                position: "top-center",
+                            });
                         } else {
-                            alert("비밀번호 변경에 실패했습니다.")
+                            console.error(res.data.message);
+                            toast.error("비밀번호 변경 중 에러가 발생했습니다😭", {
+                                position: "top-center",
+                            });
                         }
                     }
                 })
-        }
     }
 
     return (
@@ -83,8 +98,8 @@ const MypagePasswd = () => {
             <Header title="비밀번호 변경" topLink="/board" isBackButton={true} />
             <Formik
                 initialValues={{
-                    change_email: "",
-                    change_email2: "",
+                    change_passwd: "",
+                    change_passwd2: "",
                     user_passwd: ""
                 }}
                 validationSchema={validationSchema}
@@ -92,6 +107,7 @@ const MypagePasswd = () => {
             >
                 {({values, handleSubmit, handleChange, errors}) => (
                     <StyledBox>
+                        <ToastContainer/>
                         <form onSubmit={handleSubmit}>
                         <div style={titleBox}>
                             <MyPageTitle>새 비밀번호</MyPageTitle>
@@ -148,7 +164,7 @@ const MypagePasswd = () => {
             </Formik>
             <Footer/>
         </>
-    );
+    )
 }
 
 export default MypagePasswd;

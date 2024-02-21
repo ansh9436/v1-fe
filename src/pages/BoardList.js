@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import api from "../utils/api";
-import { Link, useSearchParams } from "react-router-dom";
-import StyledBox from "../components/Style/StyledBox";
+import { useSearchParams } from "react-router-dom";
 import BoardCard from "../components/Board/BoardCard";
 import Header from "../components/Common/Header";
 import Footer from "../components/Common/Footer";
 import Pagination from "@mui/material/Pagination";
 import "./Board.scss";
-import UserProfile from "../components/Board/UserProfile";
-import LogoutButton from "../components/Common/LogoutButton";
 import { toast, ToastContainer } from "react-toastify";
 import checkWriter from "../assets/writeractive.png";
 import uncheckWriter from "../assets/writer.png";
@@ -132,17 +129,8 @@ const BoardList = () => {
     return (
         <>
             <Header title="자유게시판" topLink="/board" />
-            <StyledBox backgroundColor="#fafafa" padding="10px 0px" lineHeight="auto">
+            {/*<StyledBox backgroundColor="#fafafa" padding="10px 0" lineHeight="auto">*/}
                 <ToastContainer/>
-                <div className="profile-box">
-                    <UserProfile boardPage={true} />
-                    <Link to="/mypage">
-                        <div className="Profile-btn">내정보</div>
-                    </Link>
-                    <div className="profile-btn">
-                        <LogoutButton />
-                    </div>
-                </div>
                 <form className="boardForm" onSubmit={onSubmit}>
                     <input
                         name="title"
@@ -201,7 +189,7 @@ const BoardList = () => {
                     />
                 </div>
                 <Footer />
-            </StyledBox>
+            {/*</StyledBox>*/}
         </>
     );
 };

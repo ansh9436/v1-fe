@@ -7,7 +7,7 @@ import moment        from "moment";
 import {toast} from "react-toastify";
 import api from "../../utils/api";
 import comment from "../../assets/comment.png";
-import {utils} from "../../utils/utils";
+import { utils } from "../../utils/utils";
 
 const BoardCard = ({seq, created_at, writer_yn, user_nick, title,
                        body, user_liked, like_cnt, comment_cnt, onRemove, page}) => {
@@ -42,11 +42,11 @@ const BoardCard = ({seq, created_at, writer_yn, user_nick, title,
                         <p className="boardUserID">{user_nick}</p>
                         <div className="boardTime">
                             {utils.getUpdateTime(moment(created_at).add(9, 'h'))}
-                            {/*<UpdateTime time={moment(created_at).add(9, 'h')}/>*/}
                         </div>
                     </span>
                     {writer_yn === 'Y' &&
-                        <button style={{color: "#c62912",fontSize: "12px",lineHeight: "22px"}} onClick={onBoardDelete}>
+                        <button style={{color: "#c62912",fontSize: "12px",lineHeight: "22px"}}
+                                onClick={onBoardDelete}>
                         삭제
                         </button>
                     }

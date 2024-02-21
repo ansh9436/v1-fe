@@ -1,25 +1,40 @@
 import {jwtDecode} from "jwt-decode";
+import store from "../redux/configStore";
+import {setAccToken, setReToken} from "../redux/reducers/AuthReducer";
+
+export class jwtUtils {
+    static isAuth() {
+        try {
+            const accToken = store.getState().Auth["accToken"];
+            return !!accToken;
+        } catch (err) {
+            console.error('isAuth 중 에러', err);
+            return false;
+        }
+    }
+
+    static clearToken() {
+        try {
+            store.dispatch(setAccToken(''));
+            store.dispatch(setReToken(''));
+        } catch (err) {
+            console.error('clearToken 중 에러', err);
+        }
+    }
+
+    // 토큰에서 유저 정보 가져오기
+    static getUser() {
+        try {
+            const accToken = store.getState().Auth["accToken"];
+            return jwtDecode(accToken);
+        } catch (err) {
+            console.error('getUser 중 에러', err);
+            return {};
+        }
+    }
+}
 
 export class utils {
-    // 토큰 유효성 검사
-    static isAuth(token) {
-        if (!token) {
-            return false;
-        }
-        const decoded = jwtDecode(token);
-        //console.log('exp',decoded.exp, 'now',new Date().getTime() / 1000);
-        if (decoded.exp > new Date().getTime() / 1000) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // 토큰에서 유저 id 가져오기
-    static getUser(token) {
-        return jwtDecode(token);
-    }
-
     // 한달전 일년 이런식 날짜 변환
     static getUpdateTime(time) {
         const now = new Date();
@@ -41,5 +56,4 @@ export class utils {
             return `${Math.floor(TimeDiffDay / 365)}년 전`;
         }
     }
-
 }
