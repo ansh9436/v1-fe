@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "../../utils/api";
+import api from "../../commons/api";
 import vote from "../../assets/vote.png";
 
 const LikeButton = ({top_seq, user_liked, like_cnt}) => {

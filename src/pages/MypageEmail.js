@@ -1,6 +1,6 @@
 import React  from 'react';
-import api               from '../utils/api';
-import { jwtUtils }     from '../utils/utils';
+import api               from '../commons/api';
+import { jwtUtils }     from '../commons/utils';
 import Header        from '../components/Common/Header';
 import Footer        from '../components/Common/Footer';
 import StyledBox     from '../components/Style/StyledBox';
@@ -50,40 +50,41 @@ const MypageEmail = () => {
 
     const onSubmitEmail = async(values) => {
         const { user_passwd, change_email } = values;
-        try {
-            await api.put("/api/mypage", {
-                user_passwd: user_passwd,
-                change_email: change_email,
-                type: 'email'
-            })
-                .then(res => {
-                    if(res.data.success) {
-                        jwtUtils.clearToken();
-                        toast.success(<h3>이메일 변경 완료되었습니다.<br/>다시 로그인 하세요😎</h3>, {
-                            position: "top-center",
-                            autoClose: 2000
-                        });
-                        setTimeout(()=> {
-                            navigate("/login");
-                        }, 2000);
-                    } else {
-                        if(res.data.message === 'MypagePasswordNotCompare') {
-                            toast.error("비밀번호가 일치하지 않습니다.😭", {
-                                position: "top-center",
-                            });
-                        } else {
-                            console.error(res.data.message);
-                            toast.error("이메일 변경 중 에러가 발생했습니다😭", {
-                                position: "top-center",
-                            });
-                        }
-                    }
+
+        await api.put("/api/mypage", {
+            user_passwd: user_passwd,
+            change_email: change_email,
+            type: 'email'
+        })
+        .then(res => {
+            if(res.data.success) {
+                jwtUtils.clearToken();
+                toast.success(<h3>이메일 변경 완료되었습니다.<br/>다시 로그인 하세요😎</h3>, {
+                    position: "top-center",
+                    autoClose: 2000
                 });
-        } catch(e) {
-            toast.error(e.response.data.message + "😭", {
+                setTimeout(()=> {
+                    navigate("/login");
+                }, 2000);
+            } else {
+                if(res.data.message === 'MypagePasswordNotCompare') {
+                    toast.error(<h3>비밀번호가 일치하지 않습니다.</h3>, {
+                        position: "top-center",
+                    });
+                } else {
+                    console.error(res.data.message);
+                    toast.error(<h3>이메일 변경 중 에러가 발생했습니다.<br/>다시 시도 하세요</h3>, {
+                        position: "top-center",
+                    });
+                }
+            }
+        })
+        .catch((e) =>{
+            console.error(e.response.data.message);
+            toast.error(<h3>이메일 변경 중 에러가 발생했습니다.</h3>, {
                 position: "top-center",
             });
-        }
+        });
     }
 
     return (

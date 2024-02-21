@@ -1,6 +1,6 @@
 import React, { useEffect, useState }     from 'react';
 import { useParams, useSearchParams} from 'react-router-dom';
-import api                                from "../utils/api";
+import api                                from "../commons/api";
 import Header from '../components/Common/Header';
 import StyledBox from '../components/Style/StyledBox';
 import BoardCard from "../components/Board/BoardCard";

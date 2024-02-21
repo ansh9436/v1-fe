@@ -2,8 +2,8 @@ import React        from "react";
 import profile      from "../../assets/profile.png";
 import "./CommentCard.scss";
 import moment from "moment";
-import api from "../../utils/api";
-import {utils} from "../../utils/utils";
+import api from "../../commons/api";
+import {utils} from "../../commons/utils";
 import {toast} from "react-toastify";
 
 const CommentCard = ({seq, user_nick, body, created_at, onRemove, writer_yn}) => {

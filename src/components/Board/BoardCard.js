@@ -5,9 +5,9 @@ import profile       from '../../assets/profile.png';
 import './BoardCard.scss';
 import moment        from "moment";
 import {toast} from "react-toastify";
-import api from "../../utils/api";
+import api from "../../commons/api";
 import comment from "../../assets/comment.png";
-import { utils } from "../../utils/utils";
+import { utils } from "../../commons/utils";
 
 const BoardCard = ({seq, created_at, writer_yn, user_nick, title,
                        body, user_liked, like_cnt, comment_cnt, onRemove, page}) => {

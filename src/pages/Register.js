@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { /*useState*/ } from "react";
 import axios from "axios";
 import Header from "../components/Common/Header";
 import RegisterInput from "../components/Register/RegisterInput";
@@ -14,7 +14,7 @@ import './Register.scss';
 
 const Register = () => {
     const navigate = useNavigate();
-    const [passEmail, setPassEmail] = useState(false);
+    /*const [passEmail, setPassEmail] = useState(false);
     const [passNick, setPassNick] = useState(false);
 
     const checkEmail = (e) => {
@@ -54,7 +54,7 @@ const Register = () => {
                 position: "top-center",
             });
         });
-    }
+    }*/
 
     const validationSchema = Yup.object().shape({
         user_email: Yup.string()

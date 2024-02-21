@@ -1,5 +1,5 @@
 import React from 'react';
-import api from '../utils/api';
+import api from '../commons/api';
 import Header from '../components/Common/Header';
 import Footer from '../components/Common/Footer';
 import StyledBox from '../components/Style/StyledBox';
@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import {jwtUtils} from "../utils/utils";
+import {jwtUtils} from "../commons/utils";
 
 const MypagePasswd = () => {
     const navigate = useNavigate();
@@ -68,29 +68,35 @@ const MypagePasswd = () => {
                 change_passwd: change_passwd,
                 type: 'passwd'
             })
-                .then((res) => {
-                    if(res.data.success) {
-                        jwtUtils.clearToken();
-                        toast.success(<h3>비밀번호가 변경 완료되었습니다.<br/>다시 로그인 하세요😎</h3>, {
+            .then((res) => {
+                if(res.data.success) {
+                    jwtUtils.clearToken();
+                    toast.success(<h3>비밀번호가 변경 완료되었습니다.<br/>다시 로그인 하세요😎</h3>, {
+                        position: "top-center",
+                        autoClose: 2000
+                    });
+                    setTimeout(()=> {
+                        navigate("/login");
+                    }, 2000);
+                } else {
+                    if(res.data.message === 'MypagePasswordNotCompare') {
+                        toast.error(<h3>비밀번호가 일치하지 않습니다.</h3>, {
                             position: "top-center",
-                            autoClose: 2000
                         });
-                        setTimeout(()=> {
-                            navigate("/login");
-                        }, 2000);
                     } else {
-                        if(res.data.message === 'MypagePasswordNotCompare') {
-                            toast.error("비밀번호가 일치하지 않습니다.😭", {
-                                position: "top-center",
-                            });
-                        } else {
-                            console.error(res.data.message);
-                            toast.error("비밀번호 변경 중 에러가 발생했습니다😭", {
-                                position: "top-center",
-                            });
-                        }
+                        console.error(res.data.message);
+                        toast.error(<h3>비밀번호 변경 중 에러가 발생했습니다.<br/>다시 시도 하세요</h3>, {
+                            position: "top-center",
+                        });
                     }
-                })
+                }
+            })
+            .catch((e) =>{
+                console.error(e.response.data.message);
+                toast.error(<h3>비밀번호 변경 중 에러가 발생했습니다.</h3>, {
+                    position: "top-center",
+                });
+            });
     }
 
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
-import api from '../utils/api';
-import { jwtUtils } from '../utils/utils';
+import api from '../commons/api';
+import { jwtUtils } from '../commons/utils';
 import Header from '../components/Common/Header';
 import Footer from '../components/Common/Footer';
 import StyledBox from '../components/Style/StyledBox';
@@ -49,7 +49,7 @@ const MypageNickname = () => {
 
     const onSubmitNick = async (values) => {
         const { user_passwd, change_nick } = values;
-        try {
+
             await api.put("/api/mypage", {
                                 user_passwd: user_passwd,
                                 change_nick: change_nick,
@@ -67,22 +67,23 @@ const MypageNickname = () => {
                     }, 2000);
                 } else {
                     if(res.data.message === 'MypagePasswordNotCompare') {
-                        toast.error("비밀번호가 일치하지 않습니다.😭", {
+                        toast.error(<h3>비밀번호가 일치하지 않습니다.</h3>, {
                             position: "top-center",
                         });
                     } else {
                         console.error(res.data.message);
-                        toast.error("닉네임 변경 중 에러가 발생했습니다😭", {
+                        toast.error(<h3>닉네임 변경 중 에러가 발생했습니다.<br/>다시 시도 하세요</h3>, {
                             position: "top-center",
                         });
                     }
                 }
-            });
-            } catch(e) {
-                toast.error(e.response.data.message + "😭", {
+            })
+            .catch((e) =>{
+                console.error(e.response.data.message);
+                toast.error(<h3>닉네임 변경 중 에러가 발생했습니다.</h3>, {
                     position: "top-center",
                 });
-            }
+            });
     }
 
     return (

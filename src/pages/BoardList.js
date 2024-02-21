@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "../utils/api";
+import api from "../commons/api";
 import { useSearchParams } from "react-router-dom";
 import BoardCard from "../components/Board/BoardCard";
 import Header from "../components/Common/Header";

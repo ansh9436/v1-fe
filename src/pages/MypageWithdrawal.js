@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import api from '../utils/api';
+import api from '../commons/api';
 import Header from '../components/Common/Header';
 import Footer from '../components/Common/Footer';
 import StyledBox from '../components/Style/StyledBox';

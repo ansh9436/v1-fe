@@ -1,6 +1,6 @@
 import React, { useEffect, useState }     from 'react';
 import {Link, useParams, useSearchParams} from 'react-router-dom';
-import api                                from "../utils/api";
+import api                                from "../commons/api";
 import Header                         from '../components/Common/Header';
 import BoardCard                      from '../components/Board/BoardCard';
 import CommentCard                    from '../components/Board/CommentCard';
