@@ -1,8 +1,5 @@
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import logoImg from "../../assets/logo.png";
-import backImg from "../../assets/cancel.png";
-import profile from "../../assets/profile.png";
 import "./Header.scss";
 
 const Header = ({ title, topLink, isBackButton, backLink }) => {
@@ -15,17 +12,19 @@ const Header = ({ title, topLink, isBackButton, backLink }) => {
         <div className="headerStyle">
             <div style={{width: '140px'}}>
                 <Link to={topLink}>
-                    <img className="logo" src={logoImg} alt="logo" />
+                    <img className="logo" src={'/assets/logo.png'} alt="logo" />
                 </Link>
                 <span className="headerTitle">{title}</span>
             </div>
             {isBackButton
             ?   <div className="headerBackButtonArea">
-                    <img className="headerBackButton" src={backImg} alt="이전메뉴" onClick={clickLocation}/>
+                    <img className="headerBackButton" src={'/assets/cancel.png'}
+                         alt="이전메뉴" onClick={clickLocation}/>
                 </div>
             :
                 <div className="headerMyButtonArea">
-                    <img className="headerMyButton" src={profile} alt="mypage" onClick={clickLocation}/>
+                    <img className="headerMyButton" src={'/assets/profile.png'}
+                         alt="mypage" onClick={clickLocation}/>
                 </div>
             }
         </div>

@@ -128,7 +128,7 @@ const BoardList = () => {
 
     return (
         <>
-            <Header title="자유게시판" topLink="/board" />
+            <Header title="자유게시판" topLink="/board" backLink="/mypage" />
             {/*<StyledBox backgroundColor="#fafafa" padding="10px 0" lineHeight="auto">*/}
                 <ToastContainer/>
                 <form className="boardForm" onSubmit={onSubmit}>

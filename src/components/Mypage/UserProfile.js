@@ -1,5 +1,4 @@
 import React from 'react';
-//import profile from "../../assets/profile.png";
 import { jwtUtils } from "../../commons/utils";
 import "./UserProfile.scss";
 
