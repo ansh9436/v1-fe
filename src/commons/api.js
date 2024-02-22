@@ -14,9 +14,9 @@ const instance = axios.create({
 instance.interceptors.request.use((config) => {
     // HTTP Authorization 요청 헤더에 jwt-token 을 넣음
     // 서버측 미들웨어에서 이를 확인하고 검증한 후 해당 API 에 요청함.
-    const accToken = store.getState().Auth["accToken"];
     try {
-        if (accToken) {
+        if (store.getState().Auth["accToken"]) {
+            const accToken = store.getState().Auth["accToken"];
             console.info('헤더 삽입된 액세세 토큰', accToken);
             config.headers.Authorization = `Bearer ${accToken}`;
         } else {
@@ -64,6 +64,8 @@ instance.interceptors.response.use((response) => { //status 가 200인 경우 th
                     const newAccessToken = res.data["resultData"]["accessToken"];
                     store.dispatch(setAccToken(newAccessToken));
                     originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+
+                    localStorage.setItem('userInfo', JSON.stringify(res.data['resultData']['userInfo']))
                 })
                 .catch((err) => {   // 에러시 저장소를 지우고 로그인페이지로
                     store.dispatch(setAccToken(''));

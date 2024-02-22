@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Header.scss";
 
 const Header = ({ title, topLink, isBackButton, backLink }) => {
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const userImg = `http://localhost:8080/${userInfo.user_image}`;
     const navigate = useNavigate();
     const clickLocation = () => {
         backLink ? navigate(backLink) : navigate(-1);
@@ -23,7 +25,7 @@ const Header = ({ title, topLink, isBackButton, backLink }) => {
                 </div>
             :
                 <div className="headerMyButtonArea">
-                    <img className="headerProfileButton" src={'/assets/profile.png'}
+                    <img className="headerProfileButton" src={userImg}
                          alt="mypage" onClick={clickLocation}/>
                 </div>
             }

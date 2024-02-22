@@ -82,7 +82,7 @@ const Mypage = () => {
             .then(data => {
                 if (data.success) {
                     const {user_email, user_nick, user_image} = data["resultData"];
-                    const userImg = `http://localhost:8080/${user_image}`
+                    const userImg = `http://localhost:8080/${user_image}`;
                     setUserInfo({
                         user_email: user_email,
                         user_nick: user_nick,
