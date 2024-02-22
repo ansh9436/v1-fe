@@ -7,16 +7,13 @@ import Footer from "../components/Common/Footer";
 import Pagination from "@mui/material/Pagination";
 import "./Board.scss";
 import { toast, ToastContainer } from "react-toastify";
-import checkWriter from "../assets/writeractive.png";
-import uncheckWriter from "../assets/writer.png";
-import writeIcon from "../assets/write.png";
 
 const BoardList = () => {
     const [searchParams] = useSearchParams();
     const [pageTotal, setPageTotal] = useState(0);
     const [reload, setReload] = useState(1);
-    const [page, setPage] = useState(()=>{
-        if(searchParams.get("page")) {
+    const [page, setPage] = useState(() => {
+        if (searchParams.get("page")) {
             return Number(searchParams.get("page"));
         } else {
             return 1;
@@ -31,14 +28,13 @@ const BoardList = () => {
     const [anon_yn, setAnon_yn] = useState('Y');
 
 
-
     const onRemove = () => {
-        setReload(enters => enters+1);
+        setReload(enters => enters + 1);
     }
 
 
     const onChange = (e) => {
-        const { value, name } = e.target;
+        const {value, name} = e.target;
         setInput({
             ...inputs,
             [name]: value,
@@ -69,18 +65,18 @@ const BoardList = () => {
             });
             return false;
         }
-        api.post("/api/board", {anon_yn:anon_yn, ...inputs})
+        api.post("/api/board", {anon_yn: anon_yn, ...inputs})
             .then((res) => {
-                const { data } = res;
+                const {data} = res;
                 if (data.success) {
                     setInput({
                         title: "",
                         body: ""
                     });
-                    if(page > 1) {
+                    if (page > 1) {
                         setPage(1);
                     } else {
-                        setReload(enters => enters+1);
+                        setReload(enters => enters + 1);
                     }
                 } else {
                     toast.error('게시글 업로드에 실패하였습니다.', {
@@ -88,8 +84,8 @@ const BoardList = () => {
                     });
                 }
             })
-            .catch((e) =>{
-                toast.error("오류발생" + e.response.data.message+ "😭", {
+            .catch((e) => {
+                toast.error("오류발생" + e.response.data.message + "😭", {
                     position: "top-center",
                 });
             });
@@ -98,8 +94,8 @@ const BoardList = () => {
 
     // 클릭시 모드가 변경됨에 유의
     const onIconClick = (ev) => {
-        const { alt } = ev.target;
-        if(alt === 'checkImg') {
+        const {alt} = ev.target;
+        if (alt === 'checkImg') {
             setAnon_yn('N');
             console.log('실명', alt, anon_yn);
         } else {
@@ -113,7 +109,7 @@ const BoardList = () => {
 
     useEffect(() => {
         const getBoardList = async () => {
-            const { data } = await api.get(`/api/board?reload=${reload}`, {params: {page: page}});
+            const {data} = await api.get(`/api/board?reload=${reload}`, {params: {page: page}});
             return data;
         };
 
@@ -122,73 +118,73 @@ const BoardList = () => {
                 setBoardList(res["resultData"].contents);
                 setPageTotal(Number(res["resultData"]["pagination"]["pageTotal"]));
             }).catch(err => {
-                console.log(err);
-            });
+            console.log(err);
+        });
     }, [page, reload])
 
     return (
         <>
-            <Header title="자유게시판" topLink="/board" backLink="/mypage" />
+            <Header title="자유게시판" topLink="/board" backLink="/mypage"/>
             {/*<StyledBox backgroundColor="#fafafa" padding="10px 0" lineHeight="auto">*/}
-                <ToastContainer/>
-                <form className="boardForm" onSubmit={onSubmit}>
-                    <input
-                        name="title"
-                        placeholder="제목을 작성해주세요."
-                        value={inputs.title}
-                        onChange={onChange}
-                    />
-                    <textarea
-                        name="body"
-                        placeholder="여기를 눌러서 글을 작성할 수 있습니다."
-                        value={inputs.body}
-                        onChange={onChange}
-                    />
-                    <li className="checkButton">
-                        {isClickIcon
-                            ? <img className="inputIcon" src={checkWriter}
-                                   alt='checkImg' onClick={onIconClick} />
-                            : <img className="inputIcon" src={uncheckWriter}
-                                   alt='unCheckImg' onClick={onIconClick} />
-                        }
-                    </li>
-                    <li className="submitButtonList" onClick={onSubmit}>
-                        <img className="inputIcon" src={writeIcon} alt={writeIcon} />
-                    </li>
-                </form>
-                {boardList.map((row, index) => {
-                    return (
-                        <React.Fragment key={index}>
-                            <BoardCard
-                                seq={row.seq}
-                                created_at={row["created_at"]}
-                                writer_yn={row["writer_yn"]}
-                                user_nick={row.user_nick}
-                                title={row.title}
-                                body={row.body}
-                                user_liked={Boolean(row.user_liked)}
-                                like_cnt={row.like_cnt}
-                                comment_cnt={row.comment_cnt}
-                                onRemove={onRemove}
-                                page={page}
-                            />
-                        </React.Fragment>
-                    );
-                })}
-                <div className="paginationBox">
-                    <Pagination
-                        variant="outlined"
-                        count={pageTotal}
-                        page={page}
-                        onChange={(e, value) => {
-                            setPage(value);
-                        }}
-                        size="small"
-                        hidePrevButton
-                        hideNextButton
-                    />
-                </div>
-                <Footer />
+            <ToastContainer/>
+            <form className="boardForm" onSubmit={onSubmit}>
+                <input
+                    name="title"
+                    placeholder="제목을 작성해주세요."
+                    value={inputs.title}
+                    onChange={onChange}
+                />
+                <textarea
+                    name="body"
+                    placeholder="여기를 눌러서 글을 작성할 수 있습니다."
+                    value={inputs.body}
+                    onChange={onChange}
+                />
+                <li className="checkButton">
+                    {isClickIcon
+                        ? <img className="inputIcon" src={'/assets/writeractive.png'}
+                               alt='checkImg' onClick={onIconClick}/>
+                        : <img className="inputIcon" src={'/assets/writer.png'}
+                               alt='unCheckImg' onClick={onIconClick}/>
+                    }
+                </li>
+                <li className="submitButtonList" onClick={onSubmit}>
+                    <img className="inputIcon" src={'/assets/write.png'} alt={'/assets/write.png'}/>
+                </li>
+            </form>
+            {boardList.map((row, index) => {
+                return (
+                    <React.Fragment key={index}>
+                        <BoardCard
+                            seq={row.seq}
+                            created_at={row["created_at"]}
+                            writer_yn={row["writer_yn"]}
+                            user_nick={row.user_nick}
+                            title={row.title}
+                            body={row.body}
+                            user_liked={Boolean(row.user_liked)}
+                            like_cnt={row.like_cnt}
+                            comment_cnt={row.comment_cnt}
+                            onRemove={onRemove}
+                            page={page}
+                        />
+                    </React.Fragment>
+                );
+            })}
+            <div className="paginationBox">
+                <Pagination
+                    variant="outlined"
+                    count={pageTotal}
+                    page={page}
+                    onChange={(e, value) => {
+                        setPage(value);
+                    }}
+                    size="small"
+                    hidePrevButton
+                    hideNextButton
+                />
+            </div>
+            <Footer/>
             {/*</StyledBox>*/}
         </>
     );

@@ -23,7 +23,7 @@ const Header = ({ title, topLink, isBackButton, backLink }) => {
                 </div>
             :
                 <div className="headerMyButtonArea">
-                    <img className="headerMyButton" src={'/assets/profile.png'}
+                    <img className="headerProfileButton" src={'/assets/profile.png'}
                          alt="mypage" onClick={clickLocation}/>
                 </div>
             }

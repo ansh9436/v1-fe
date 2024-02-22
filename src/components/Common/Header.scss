@@ -1,49 +1,59 @@
 .headerStyle {
-    display: flex;
-    color: #353535;
-    background-color: #fff;
-    width: 100%;
-    height: 56px;
-    padding: 0 8px;
-    margin-bottom: 8px;
-    justify-content: space-between;
+  display: flex;
+  color: #353535;
+  background-color: #fff;
+  width: 100%;
+  height: 56px;
+  padding: 0 8px;
+  margin-bottom: 8px;
+  justify-content: space-between;
 }
 
 .logo {
-    width: 30px;
-    height: 32px;
-    vertical-align: middle;
-    cursor: pointer;
+  width: 30px;
+  height: 32px;
+  vertical-align: middle;
+  cursor: pointer;
 }
 
 .headerTitle {
-    color: #454545;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: left;
-    line-height: 56px;
-    padding-left: 8px;
+  color: #454545;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+  line-height: 56px;
+  padding-left: 8px;
 }
 
 .headerBackButton {
-    border: 1px solid #f8e1e0;
-    width: 12px;
-    height: 12px;
-    margin-right: 12px;
-    border-radius: 4px;
-    vertical-align: middle;
-    cursor: pointer;
+  border: 1px solid #f8e1e0;
+  width: 12px;
+  height: 12px;
+  margin-right: 12px;
+  border-radius: 4px;
+  vertical-align: middle;
+  cursor: pointer;
 }
 
 .headerBackButtonArea {
-    line-height: 56px;
-    margin-right: 4px;
+  line-height: 56px;
+  margin-right: 4px;
 }
 
 .headerMyButton {
+  border: 1px solid #f8e1e0;
+  width: 12px;
+  height: 12px;
+  margin-right: 12px;
+  border-radius: 4px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.headerProfileButton {
     border: 1px solid #f8e1e0;
-    width: 12px;
-    height: 12px;
+    width: 30px;
+    height: 32px;
     margin-right: 12px;
     border-radius: 4px;
     vertical-align: middle;
@@ -51,6 +61,6 @@
 }
 
 .headerMyButtonArea {
-    line-height: 56px;
-    margin-right: 4px;
+  line-height: 56px;
+  margin-right: 4px;
 }

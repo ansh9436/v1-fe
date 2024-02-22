@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import api from "../../commons/api";
-import vote from "../../assets/vote.png";
 
 const LikeButton = ({top_seq, user_liked, like_cnt}) => {
     const [likeCount, setLikeCount] = useState(like_cnt);
@@ -12,9 +11,9 @@ const LikeButton = ({top_seq, user_liked, like_cnt}) => {
         e.preventDefault();
         await api.post("/api/like", {top_seq: top_seq, type_is: 'B', like_is: !userLiked})
             .then((res) => {
-                const { data } = res;
-                console.info('좋아요 result',data);
-                if(data.success) {
+                const {data} = res;
+                console.info('좋아요 result', data);
+                if (data.success) {
                     setUserLiked(data["resultData"].user_liked);
                     setLikeCount(data["resultData"].like_cnt);
                 }
@@ -24,7 +23,7 @@ const LikeButton = ({top_seq, user_liked, like_cnt}) => {
     };
 
     useEffect(() => {
-        if(userLiked) {
+        if (userLiked) {
             console.log('좋아요 스타일 변경');
             setUserLikedStyle({width: '12px', height: '12px', marginLeft: '10px'});
         } else {
@@ -32,18 +31,18 @@ const LikeButton = ({top_seq, user_liked, like_cnt}) => {
             setUserLikedStyle({width: '12px', height: '12px', marginLeft: '10px', filter: 'grayScale(100%)'});
         }
 
-        if(likeCount > 0) {
-            setCountStyle({ display: 'inline-block', color: '#c62917', fontSize: '13px', paddingLeft: '4px'});
+        if (likeCount > 0) {
+            setCountStyle({display: 'inline-block', color: '#c62917', fontSize: '13px', paddingLeft: '4px'});
         } else {
-            setCountStyle({ display: 'inline-block', color: '#575555', fontSize: '13px', paddingLeft: '4px'});
+            setCountStyle({display: 'inline-block', color: '#575555', fontSize: '13px', paddingLeft: '4px'});
         }
-    },[userLiked]);
+    }, [userLiked]);
 
 
     return (
         <>
             <button onClick={likeClick}>
-                <img style={userLikedStyle} src={vote} alt="vote" />
+                <img style={userLikedStyle} src={'/assets/vote.png'} alt="vote"/>
                 <p style={countStyle}>
                     {likeCount}
                 </p>
