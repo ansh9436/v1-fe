@@ -32,7 +32,7 @@ const Login = () => {
             if (data.success && data.message === 'OK') {
                 dispatch(setAccToken(data['resultData']['accessToken']));
                 dispatch(setReToken(data['resultData']['refreshToken']));
-                localStorage.setItem('userInfo', JSON.stringify(data['resultData']['userInfo']))
+                localStorage.setItem('userInfo', JSON.stringify(data['resultData']['userInfo']));
                 const redirectUrl = searchParams.get("redirectUrl");
                 toast.success(<h3>로그인 성공😎</h3>, {
                     position: "top-center",

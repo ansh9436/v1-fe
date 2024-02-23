@@ -125,7 +125,6 @@ const BoardList = () => {
     return (
         <>
             <Header title="자유게시판" topLink="/board" backLink="/mypage"/>
-            {/*<StyledBox backgroundColor="#fafafa" padding="10px 0" lineHeight="auto">*/}
             <ToastContainer/>
             <form className="boardForm" onSubmit={onSubmit}>
                 <input
@@ -165,6 +164,7 @@ const BoardList = () => {
                             user_liked={Boolean(row.user_liked)}
                             like_cnt={row.like_cnt}
                             comment_cnt={row.comment_cnt}
+                            user_image={row.user_image}
                             onRemove={onRemove}
                             page={page}
                         />
@@ -185,7 +185,6 @@ const BoardList = () => {
                 />
             </div>
             <Footer/>
-            {/*</StyledBox>*/}
         </>
     );
 };

@@ -5,7 +5,8 @@ import api from "../../commons/api";
 import { utils } from "../../commons/utils";
 import { toast } from "react-toastify";
 
-const CommentCard = ({seq, user_nick, body, created_at, onRemove, writer_yn}) => {
+const CommentCard = ({seq, user_nick, body, created_at, onRemove, writer_yn, user_image}) => {
+    const userImage = `http://localhost:8080/${user_image}`;
     const onCommentDelete = () => {
         const confirmDelete = window.confirm("댓글을 삭제하시겠습니까?");
         confirmDelete && api.delete(`/api/comment`, {data: {seq: seq}})
@@ -34,7 +35,7 @@ const CommentCard = ({seq, user_nick, body, created_at, onRemove, writer_yn}) =>
             <div className="commentBox" key={seq}>
                 <div className="commentUser">
                     <span style={{display: 'flex'}}>
-                        <img className="commentUserImg" src={'/assets/profile.png'} alt="profile"/>
+                        <img className="commentUserImg" src={userImage} alt="profile"/>
                         <p className="commentUserID">{user_nick}</p>
                     </span>
                     {writer_yn === 'Y' &&

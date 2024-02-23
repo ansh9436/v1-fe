@@ -123,6 +123,7 @@ const BoardDetail = () => {
                             like_cnt={row.like_cnt}
                             comment_cnt={row.comment_cnt}
                             writer_yn={row.writer_yn}
+                            user_image={row.user_image}
                             onRemove={onRemoveBoard}
                         />
                     </React.Fragment>
@@ -159,6 +160,7 @@ const BoardDetail = () => {
                             created_at={row.created_at}
                             onRemove={onRemoveComment}
                             writer_yn={row.writer_yn}
+                            user_image={row.user_image}
                         />
                     </React.Fragment>
                 )

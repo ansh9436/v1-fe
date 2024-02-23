@@ -1,16 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import LikeButton from './LikeButton';
 import './BoardCard.scss';
 import moment from "moment";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
 import api from "../../commons/api";
-import { utils } from "../../commons/utils";
+import {utils} from "../../commons/utils";
 
 const BoardCard = ({
                        seq, created_at, writer_yn, user_nick, title,
-                       body, user_liked, like_cnt, comment_cnt, onRemove, page
+                       body, user_liked, like_cnt, comment_cnt, onRemove, page, user_image
                    }) => {
+    const userImage = `http://localhost:8080/${user_image}`;
 
     const onBoardDelete = () => {
         const confirmDelete = window.confirm("게시글을 삭제하시겠습니까?");
@@ -38,7 +39,7 @@ const BoardCard = ({
             <div className="boardBox" key={seq}>
                 <div className="boardUser">
                     <span style={{display: 'flex'}}>
-                        <img className="boardUserImg" src={'/assets/profile.png'} alt="profile"/>
+                        <img className="boardUserImg" src={userImage} alt="profile"/>
                         <p className="boardUserID">{user_nick}</p>
                         <div className="boardTime">
                             {utils.getUpdateTime(moment(created_at).add(9, 'h'))}

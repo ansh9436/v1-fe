@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import api from '../commons/api';
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import Header from "../components/Common/Header";
 import StyledBox from '../components/Style/StyledBox';
 import LogoutButton from '../components/Common/LogoutButton';
 import Footer from "../components/Common/Footer";
 import "./Mypage.scss";
-import { toast, ToastContainer } from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Mypage = () => {
@@ -99,10 +99,10 @@ const Mypage = () => {
                     });
                 }
             }).catch(e => {
-            console.error(e.response.data.message);
-            toast.error(<h3>프로필 로딩 중 에러가 발생했습니다.</h3>, {
-                position: "top-center",
-            });
+                console.error(e.response.data.message);
+                toast.error(<h3>프로필 로딩 중 에러가 발생했습니다.</h3>, {
+                    position: "top-center",
+                });
         });
 
 
