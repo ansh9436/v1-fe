@@ -1,6 +1,6 @@
 import {jwtDecode} from "jwt-decode";
 import store from "../redux/configStore";
-import {setAccToken, setReToken} from "../redux/reducers/AuthReducer";
+import { setAccToken, setReToken, setUserInfo } from "../redux/reducers/AuthReducer";
 
 export class jwtUtils {
     static isAuth() {
@@ -17,19 +17,54 @@ export class jwtUtils {
         try {
             store.dispatch(setAccToken(''));
             store.dispatch(setReToken(''));
+            store.dispatch(setUserInfo(''));
         } catch (err) {
             console.error('clearToken 중 에러', err);
         }
     }
 
     // 토큰에서 유저 정보 가져오기
-    static getUser() {
+    /*static getUser() {
         try {
             const accToken = store.getState().Auth["accToken"];
             return jwtDecode(accToken);
         } catch (err) {
             console.error('getUser 중 에러', err);
             return {};
+        }
+    }*/
+
+    static getUser() {
+        try {
+             return store.getState().Auth['userInfo'];
+            //return jwtDecode(store.getState().Auth['userInfo']);
+        } catch (err) {
+            console.error('getUser 중 에러', err);
+            return {};
+        }
+    }
+
+    static setAccToken(accToken) {
+        try {
+            store.dispatch(setAccToken(accToken));
+        } catch(err) {
+            console.error('util setAcc.. 중 에러', err);
+        }
+    }
+
+    static setReToken(reToken) {
+        try {
+            store.dispatch(setReToken(reToken));
+        } catch(err) {
+            console.error('util setRe.. 중 에러', err);
+        }
+    }
+
+    static setUserInfo(userInfo) {
+        try {
+            store.dispatch(setUserInfo(userInfo));
+        } catch(err) {
+            console.error('util setUs.. 중 에러', err);
         }
     }
 }

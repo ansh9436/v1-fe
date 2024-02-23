@@ -5,12 +5,13 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
-import { setAccToken, setReToken } from "../redux/reducers/AuthReducer";
+//import { useDispatch } from "react-redux";
+//import { setAccToken, setReToken, setUserInfo } from "../redux/reducers/AuthReducer";
+import { jwtUtils } from "../commons/utils";
 
 const Login = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
 
     // 쿼리 파라미터 받아오기
     const [searchParams] = useSearchParams();
@@ -30,9 +31,13 @@ const Login = () => {
             });
             console.log('로그인 result', data);
             if (data.success && data.message === 'OK') {
-                dispatch(setAccToken(data['resultData']['accessToken']));
-                dispatch(setReToken(data['resultData']['refreshToken']));
-                localStorage.setItem('userInfo', JSON.stringify(data['resultData']['userInfo']));
+                jwtUtils.setAccToken(data['resultData']['accessToken']);
+                jwtUtils.setReToken(data['resultData']['refreshToken']);
+                jwtUtils.setUserInfo(data['resultData']['userInfo'])
+                // dispatch(setAccToken(data['resultData']['accessToken']));
+                // dispatch(setReToken(data['resultData']['refreshToken']));
+                // dispatch(setReToken(data['resultData']['userInfo']));
+                // localStorage.setItem('userInfo', JSON.stringify(data['resultData']['userInfo']));
                 const redirectUrl = searchParams.get("redirectUrl");
                 toast.success(<h3>로그인 성공😎</h3>, {
                     position: "top-center",

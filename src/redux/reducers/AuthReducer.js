@@ -1,9 +1,11 @@
 const SET_ACC_TOKEN = 'set_acc_token';
 const SET_RE_TOKEN = 'set_re_token';
+const SET_USER_INFO = 'set_user_info';
 
 const AuthInitialState = {
     accToken: null,
-    reToken: null
+    reToken: null,
+    userInfo: null,
 }
 
 export const setAccToken = (accToken) => ({
@@ -14,6 +16,11 @@ export const setAccToken = (accToken) => ({
 export const setReToken = (reToken) => ({
     type: SET_RE_TOKEN,
     reToken
+})
+
+export const setUserInfo = (userInfo) => ({
+    type: SET_USER_INFO,
+    userInfo
 })
 
 export const AuthReducer = (state = AuthInitialState, action) => {
@@ -27,6 +34,11 @@ export const AuthReducer = (state = AuthInitialState, action) => {
             return {
                 ...state,
                 reToken: action.reToken
+            }
+        case SET_USER_INFO:
+            return {
+                ...state,
+                userInfo: action.userInfo
             }
         default:
             return state;

@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.scss";
+import { jwtUtils } from "../../commons/utils";
 
 const Header = ({ title, topLink, isBackButton, backLink }) => {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    const userImg = `http://localhost:8080/${userInfo.user_image}`;
+    //const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    //console.log('jwtttttttttttttt',jwtUtils.getUser());
+    const { user_image } = jwtUtils.getUser();
+    const userImg = 'http://localhost:8080/' + user_image;
     const navigate = useNavigate();
     const clickLocation = () => {
         backLink ? navigate(backLink) : navigate(-1);

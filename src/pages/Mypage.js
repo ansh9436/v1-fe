@@ -8,13 +8,15 @@ import Footer from "../components/Common/Footer";
 import "./Mypage.scss";
 import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { jwtUtils } from "../commons/utils";
 
 const Mypage = () => {
     const [image, setImage] = useState({
         imgFile: '',
         profileImg: '/assets/profile.png',
     });
-    const [userInfo, setUserInfo] = useState({});
+    //const [userInfo, setUserInfo] = useState({});
+    const [userInfo, setUserInfo] = useState(jwtUtils.getUser());
 
     const onCancel = () => {
         setImage({
@@ -74,7 +76,7 @@ const Mypage = () => {
 
     useEffect(() => {
         const getUserInfo = async () => {
-            const {data} = await api.post(`/api/mypage/user/info`, {});
+            const {data} = await api.post(`/api/mypage/user/info`);
             return data;
         };
 
