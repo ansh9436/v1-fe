@@ -1,6 +1,9 @@
 import {jwtDecode} from "jwt-decode";
 import store from "../redux/configStore";
-import { setAccToken, setReToken, setUserInfo } from "../redux/reducers/AuthReducer";
+import { setAccToken, setReToken, /*setUserInfo*/ } from "../redux/reducers/AuthReducer";
+import api from "./api";
+import {toast} from "react-toastify";
+import React from "react";
 
 export class jwtUtils {
     static isAuth() {
@@ -17,14 +20,14 @@ export class jwtUtils {
         try {
             store.dispatch(setAccToken(''));
             store.dispatch(setReToken(''));
-            store.dispatch(setUserInfo(''));
+            //store.dispatch(setUserInfo(''));
         } catch (err) {
             console.error('clearToken 중 에러', err);
         }
     }
 
     // 토큰에서 유저 정보 가져오기
-    /*static getUser() {
+    static getUser() {
         try {
             const accToken = store.getState().Auth["accToken"];
             return jwtDecode(accToken);
@@ -32,16 +35,24 @@ export class jwtUtils {
             console.error('getUser 중 에러', err);
             return {};
         }
-    }*/
+    }
 
-    static getUser() {
-        try {
-             return store.getState().Auth['userInfo'];
-            //return jwtDecode(store.getState().Auth['userInfo']);
-        } catch (err) {
-            console.error('getUser 중 에러', err);
-            return {};
-        }
+    static async tokenPublish() {
+        await api.get("/api/refresh/both")
+            .then(res => {
+                if (res.data.success) {
+                    jwtUtils.setAccToken(res.data["accessToken"]);
+                    jwtUtils.setReToken(res.data["refreshToken"]);
+                } else {
+                    console.error('두개 토큰 재발행중 에러',res.data.message);
+                }
+            })
+            .catch((e) => {
+                console.error(e.response.data.message);
+                toast.error(<h3>프로필 이미지 변경 중 에러가 발생했습니다.</h3>, {
+                    position: "top-center",
+                });
+            });
     }
 
     static setAccToken(accToken) {
@@ -60,13 +71,13 @@ export class jwtUtils {
         }
     }
 
-    static setUserInfo(userInfo) {
+    /*static setUserInfo(userInfo) {
         try {
             store.dispatch(setUserInfo(userInfo));
         } catch(err) {
             console.error('util setUs.. 중 에러', err);
         }
-    }
+    }*/
 }
 
 export class utils {

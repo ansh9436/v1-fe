@@ -31,7 +31,7 @@ const Mypage = () => {
         formData.append("ftype", 'U');
 
         await api.post("/api/upload", formData)
-            .then(res => {
+            .then(async res => {
                 if (res.data.success) {
                     setImage({
                         imgFile: "", profileImg: image.profileImg
@@ -40,6 +40,7 @@ const Mypage = () => {
                         position: "top-center",
                         autoClose: 2000
                     });
+                    return await jwtUtils.tokenPublish();
                 } else {
                     console.error(res.data.message);
                     toast.error(<h3>프로필 이미지 변경 중 에러가 발생했습니다.<br/>다시 시도 하세요</h3>, {

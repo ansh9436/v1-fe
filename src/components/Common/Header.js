@@ -5,7 +5,7 @@ import { jwtUtils } from "../../commons/utils";
 
 const Header = ({ title, topLink, isBackButton, backLink }) => {
     //const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    //console.log('jwtttttttttttttt',jwtUtils.getUser());
+    //console.log('jwt',jwtUtils.getUser());
     const { user_image } = jwtUtils.getUser();
     const userImg = 'http://localhost:8080/' + user_image;
     const navigate = useNavigate();

@@ -64,14 +64,14 @@ instance.interceptors.response.use((response) => { //status 가 200인 경우 th
                 const newAccessToken = res.data["resultData"]["accessToken"];
                 store.dispatch(setAccToken(newAccessToken));
                 originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-                store.dispatch(setUserInfo(res.data['resultData']['userInfo']));
+                //store.dispatch(setUserInfo(res.data['resultData']['userInfo']));
                 //localStorage.setItem('userInfo', JSON.stringify(res.data['resultData']['userInfo']))
             })
-            .catch((err) => {   // 에러시 저장소를 지우고 로그인페이지로
+            .catch((e) => {   // 에러시 저장소를 지우고 로그인페이지로
                 /*store.dispatch(setAccToken(''));
                 store.dispatch(setReToken(''));
                 store.dispatch(setUserInfo(''));*/
-                console.error('엑세스 토큰 발급중 에러 : ' + err);
+                console.error('엑세스 토큰 발급중 에러 : ' + e);
                 //window.location.href = "/login";
                 alert("로그인 시간이 만료되었습니다. 다시 로그인 해주세요.");
                 return false;
@@ -83,7 +83,7 @@ instance.interceptors.response.use((response) => { //status 가 200인 경우 th
             alert("로그인 시간이 만료되었습니다. 다시 로그인 해주세요.");
             return false;
         }
-        return Promise.reject(err);
-    });
+    return Promise.reject(err);
+});
 
 export default instance;
