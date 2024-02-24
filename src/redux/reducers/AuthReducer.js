@@ -35,11 +35,11 @@ export const AuthReducer = (state = AuthInitialState, action) => {
                 ...state,
                 reToken: action.reToken
             }
-        case SET_USER_INFO:
+        /*case SET_USER_INFO:
             return {
                 ...state,
                 userInfo: action.userInfo
-            }
+            }*/
         default:
             return state;
     }

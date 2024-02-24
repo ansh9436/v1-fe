@@ -41,8 +41,8 @@ export class jwtUtils {
         await api.get("/api/refresh/both")
             .then(res => {
                 if (res.data.success) {
-                    jwtUtils.setAccToken(res.data["accessToken"]);
-                    jwtUtils.setReToken(res.data["refreshToken"]);
+                    jwtUtils.setAccToken(res.data["resultData"]["accessToken"]);
+                    jwtUtils.setReToken(res.data["resultData"]["refreshToken"]);
                 } else {
                     console.error('두개 토큰 재발행중 에러',res.data.message);
                 }
