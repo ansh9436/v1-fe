@@ -26,14 +26,12 @@ const Login = () => {
                 user_email,
                 user_passwd,
             });
-            console.log('로그인 result', data);
             if (data.success && data.message === 'OK') {
                 jwtUtils.setAccToken(data['resultData']['accessToken']);
                 jwtUtils.setReToken(data['resultData']['refreshToken']);
                 const redirectUrl = searchParams.get("redirectUrl");
                 toast.success(<h3>로그인 성공😎</h3>, {
                     position: "top-center",
-                    //autoClose: 2000,
                 });
                 // redirectUrl 이 쿼리스트링으로 존재하면
                 // 원래가고자 했던 페이지로 돌아가기
@@ -48,6 +46,8 @@ const Login = () => {
                 toast.error(data.message + "😭", {
                     position: "top-center",
                 });
+                values.user_email = '';
+                values.user_passwd = '';
             }
         } catch (e) {
             toast.error(e.response.data.message + "😭", {
