@@ -100,7 +100,7 @@ const Login = () => {
                             <button className='styledButton' type="submit">로그인</button>
                         </form>
                         <div className='styledDiv'>
-                            <Link to="./register">
+                            <Link to="../register">
                                 <span className='styledSpan'>에브리타임에 처음이신가요?</span>회원가입
                             </Link>
                         </div>

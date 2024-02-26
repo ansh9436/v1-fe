@@ -7,15 +7,13 @@ import StyledBox from '../components/Style/StyledBox';
 import MyPageTitle from '../components/Style/MyPageTitle';
 import MyPageInput from '../components/Style/MyPageInput';
 import MyPageButton from '../components/Style/MyPageButton';
-import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 const MypageNickname = () => {
-    const navigate = useNavigate();
-    const { user_nick } = jwtUtils.getUser();
+    let { user_nick } = jwtUtils.getUser();
 
     const nickAlert = {
         color: '#757575',
@@ -55,18 +53,18 @@ const MypageNickname = () => {
                                 change_nick: change_nick,
                                 type: 'nick'
             })
-            .then(res => {
-                if(res.data.success) {
-                    jwtUtils.clearToken();
-                    toast.success(<h3>닉네임 변경 완료되었습니다.<br/>다시 로그인 하세요😎</h3>, {
+            .then(async res => {
+                if (res.data.success) {
+                    toast.success(<h3>닉네임 변경 완료되었습니다.😎</h3>, {
                         position: "top-center",
                         autoClose: 2000
                     });
-                    setTimeout(()=> {
-                        navigate("/login");
-                    }, 2000);
+                    values.change_nick = '';
+                    values.user_passwd = '';
+                    user_nick = change_nick;
+                    return await jwtUtils.tokenPublish();
                 } else {
-                    if(res.data.message === 'MypagePasswordNotCompare') {
+                    if (res.data.message === 'MypagePasswordNotCompare') {
                         toast.error(<h3>비밀번호가 일치하지 않습니다.</h3>, {
                             position: "top-center",
                         });
@@ -101,8 +99,9 @@ const MypageNickname = () => {
                     <StyledBox lineHeight="40px">
                         <ToastContainer/>
                         <form onSubmit={handleSubmit}>
-                            <MyPageTitle>기존의 닉네임은 '{user_nick}' 입니다. <br />새로운 닉네임 변경하세요</MyPageTitle>
+                            <MyPageTitle>기존의 닉네임은 <><font color='blue'>{user_nick}</font></> 입니다.</MyPageTitle>
                             <MyPageInput
+                                type='text'
                                 placeholder="변경할 닉네임"
                                 name="change_nick"
                                 onChange={handleChange}
@@ -118,6 +117,7 @@ const MypageNickname = () => {
                                 placeholder="계정 비밀번호"
                                 onChange={handleChange}
                                 value={values.user_passwd}
+                                autoComplete='new-password'
                             />
                             <div style={errorMessage}>
                                 {errors.user_passwd}

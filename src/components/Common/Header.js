@@ -6,8 +6,12 @@ import { jwtUtils } from "../../commons/utils";
 const Header = ({ title, topLink, isBackButton, backLink }) => {
     //const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     //console.log('jwt',jwtUtils.getUser());
-    const { user_image } = jwtUtils.getUser();
-    const userImg = 'http://localhost:8080/' + user_image;
+    let login_user_image, userImg;
+    if(jwtUtils.isAuth()) {
+        const { user_image } = jwtUtils.getUser();
+        login_user_image = user_image;
+        userImg = 'http://localhost:8080/' + login_user_image;
+    }
     const navigate = useNavigate();
     const clickLocation = () => {
         backLink ? navigate(backLink) : navigate(-1);

@@ -125,7 +125,7 @@ const Register = () => {
                 <StyledContainer>
                     <ToastContainer/>
                     <div>
-                        <Header link={"./"} title="회원가입" backbutton={true} />
+                        <Header link={"./"} title="회원가입" isBackButton={true} />
                         <StyledBox padding="18px 16px" lineHeight="20px">
                             <form onSubmit={handleSubmit}>
                                 <RegisterInput
@@ -135,6 +135,7 @@ const Register = () => {
                                     placeholder="이메일"
                                     onChange={handleChange}
                                     value={values.user_email}
+                                    autoComplete='off'
                                 />
                                 <div className="error-message">
                                     {errors.user_email}
@@ -146,6 +147,7 @@ const Register = () => {
                                     placeholder="비밀번호"
                                     onChange={handleChange}
                                     value={values.user_passwd}
+                                    autoComplete='new-password'
                                 />
                                 <div className="error-message">
                                     {errors.user_passwd}
@@ -157,6 +159,7 @@ const Register = () => {
                                     placeholder="비밀번호 확인"
                                     onChange={handleChange}
                                     value={values.user_passwd2}
+                                    autoComplete='new-password'
                                 />
                                 <div className="error-message">
                                     {errors.user_passwd2}
@@ -168,6 +171,7 @@ const Register = () => {
                                     placeholder="닉네임"
                                     onChange={handleChange}
                                     value={values.user_nick}
+                                    autoComplete='off'
                                 />
                                 <div className="error-message">
                                     {errors.user_nick}

@@ -8,12 +8,8 @@ import MyPageInput from '../components/Style/MyPageInput';
 import MyPageButton from '../components/Style/MyPageButton';
 import * as Yup from "yup";
 import { Formik } from "formik";
-import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import {jwtUtils} from "../commons/utils";
-
 const MypagePasswd = () => {
-    const navigate = useNavigate();
 
     const titleBox = {
         display: 'flex',
@@ -34,7 +30,7 @@ const MypagePasswd = () => {
     };
     const passwdAlert = {
         color: '#999',
-        fontsize: '12px',
+        fontSize: '12px',
         lineHeight: '18px',
         marginTop: '20px'
     };
@@ -70,14 +66,13 @@ const MypagePasswd = () => {
             })
             .then((res) => {
                 if(res.data.success) {
-                    jwtUtils.clearToken();
-                    toast.success(<h3>비밀번호가 변경 완료되었습니다.<br/>다시 로그인 하세요😎</h3>, {
+                    toast.success(<h3>비밀번호가 변경 완료되었습니다.😎</h3>, {
                         position: "top-center",
                         autoClose: 2000
                     });
-                    setTimeout(()=> {
-                        navigate("/login");
-                    }, 2000);
+                    values.change_passwd = "";
+                    values.change_passwd2 =  "";
+                    values.user_passwd = "";
                 } else {
                     if(res.data.message === 'MypagePasswordNotCompare') {
                         toast.error(<h3>비밀번호가 일치하지 않습니다.</h3>, {

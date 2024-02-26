@@ -7,7 +7,6 @@ import StyledBox     from '../components/Style/StyledBox';
 import MyPageTitle   from '../components/Style/MyPageTitle';
 import MyPageInput   from '../components/Style/MyPageInput';
 import MyPageButton  from '../components/Style/MyPageButton';
-import {useNavigate} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {Formik} from "formik";
@@ -15,8 +14,7 @@ import * as Yup from "yup";
 
 
 const MypageEmail = () => {
-    const navigate = useNavigate();
-    const { user_email } = jwtUtils.getUser();
+    let { user_email } = jwtUtils.getUser();
 
     const textBox = {
         marginTop: '12px'
@@ -56,18 +54,18 @@ const MypageEmail = () => {
             change_email: change_email,
             type: 'email'
         })
-        .then(res => {
-            if(res.data.success) {
-                jwtUtils.clearToken();
-                toast.success(<h3>이메일 변경 완료되었습니다.<br/>다시 로그인 하세요😎</h3>, {
+        .then(async res => {
+            if (res.data.success) {
+                toast.success(<h3>이메일 변경 완료되었습니다.😎</h3>, {
                     position: "top-center",
                     autoClose: 2000
                 });
-                setTimeout(()=> {
-                    navigate("/login");
-                }, 2000);
+                values.change_nick = '';
+                values.user_passwd = '';
+                user_email = change_email;
+                return await jwtUtils.tokenPublish();
             } else {
-                if(res.data.message === 'MypagePasswordNotCompare') {
+                if (res.data.message === 'MypagePasswordNotCompare') {
                     toast.error(<h3>비밀번호가 일치하지 않습니다.</h3>, {
                         position: "top-center",
                     });
@@ -102,12 +100,14 @@ const MypageEmail = () => {
                     <StyledBox>
                         <ToastContainer/>
                         <form onSubmit={handleSubmit}>
-                        <MyPageTitle>기존의 이메일은 '{user_email}' 입니다. <br /> 새로운 이메일 변경하세요</MyPageTitle>
+                        <MyPageTitle>기존의 이메일은 <><font color='blue'>{user_email}</font></> 입니다.</MyPageTitle>
                         <MyPageInput
+                            type="text"
                             name="change_email"
                             placeholder="변경할 이메일"
                             value={values.change_email}
                             onChange={handleChange}
+
                         />
                         <div style={errorMessage}>
                             {errors.change_email}
@@ -119,6 +119,7 @@ const MypageEmail = () => {
                             placeholder="계정 비밀번호"
                             value={values.user_passwd}
                             onChange={handleChange}
+                            autoComplete='new-password'
                         />
                         <div style={errorMessage}>
                             {errors.user_passwd}
