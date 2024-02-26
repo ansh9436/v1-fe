@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { toast, ToastContainer } from "react-toastify";
+import { jwtUtils } from "../commons/utils";
 
 const MypageWithdrawal = () => {
     const navigate = useNavigate();
@@ -44,6 +45,8 @@ const MypageWithdrawal = () => {
                     }, 2000);
                 } else {
                     if (res.data.message === 'MypagePasswordNotCompare') {
+                        jwtUtils.setAccToken('');
+                        jwtUtils.setReToken('');
                         toast.error(<h3>비밀번호가 일치하지 않습니다.</h3>, {
                             position: "top-center",
                         });
