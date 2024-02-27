@@ -28,51 +28,22 @@ const Register = () => {
         return isSuccess;
     }
 
-    const userEmailCheck = function (){
-        return this.test("userEmailCheck", async function (userValue) {
-            let result;
-            const {path, createError} = this;
-            const regEmailExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-            console.log('이메일 넘어온 값', userValue);
-            if (userValue !== undefined && regEmailExp.test(userValue)) {
-                return new Promise(async (resolve) => {
-                    const returnValue = await checkUser('user_email', userValue);
-                    if (returnValue) {
-                        result = true;
-                    } else {
-                        result = createError({path, message: "동일한 이메일 주소가 존재합니다."});
-                    }
-                    resolve(result);
-                });
-            } else {
-                return createError({path, message: "올바른 닉네임을 입력해 주세요!"});
-            }
-        });
-    };
-
-    function userNickCheck() {
-        return this.test("userNickCheck", async function (userValue) {
-            let result;
-            const {path, createError} = this;
-            const regNickExp = /^[가-힣a-zA-Z][^!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?\s]*$/;
-            console.log('닉네임 넘어온 값', userValue);
-            if (userValue !== undefined && regNickExp.test(userValue)) {
-                return new Promise(async (resolve) => {
-                    result = await checkUser('user_nick', userValue) ?
-                        true : createError({path, message: "동일한 닉네임이 존재합니다."});
-                    resolve(result);
-                });
-            } else {
-                return createError({path, message: "올바른 이메일 주소를 입력해 주세요!"});
-            }
-        });
-    }
-
-    Yup.addMethod(Yup.string, "userEmailCheck", userEmailCheck);
-    Yup.addMethod(Yup.string, "userNickCheck", userNickCheck);
     const validationSchema = Yup.object().shape({
         user_email: Yup.string()
-            .userEmailCheck()
+            .test("userEmailCheck", async function (userValue) {
+                const {path, createError} = this;
+                const regEmailExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                console.log('이메일 넘어온 값', userValue);
+                if (userValue !== undefined && regEmailExp.test(userValue)) {
+                    return new Promise(async (resolve) => {
+                        const result = await checkUser('user_email', userValue)
+                                        ? true : createError({path, message: "동일한 이메일 주소가 존재합니다."});
+                        resolve(result);
+                    });
+                } else {
+                    return createError({path, message: "올바른 이메일 주소를 입력해 주세요!"});
+                }
+            })
             .required("올바른 이메일 주소를 입력해 주세요!!"),
         user_passwd: Yup.string()
             .min(8, "비밀번호는 최소 8자리 이상입니다")
@@ -82,15 +53,31 @@ const Register = () => {
                 /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])[^\s]*$/,
                 "알파벳, 숫자, 공백을 제외한 특수문자를 모두 포함해야 합니다!"
             ),
-        user_passwd2: Yup.string()
+        user_passwd2: Yup.mixed()
             .oneOf([Yup.ref("user_passwd"), null], "비밀번호가 일치하지 않습니다!")
             .required("비밀번호 확인을 입력하세요!"),
         user_nick: Yup.string()
-            .min(2, "닉네임은 최소 2글자 이상입니다!")
-            .max(10, "닉네임은 최대 10글자입니다!")
-            .userNickCheck()
-            .required("닉네임을 입력하세요!"),
+            .min(2, "닉네임은 2~10자 이내 특수문자 사용안됩니다!")
+            .max(10, "닉네임은 2~10자 이내 특수문자 사용안됩니다!")
+            .test("userNickCheck", async function (userValue) {
+                const {path, createError} = this;
+                const regNickExp = /^[가-힣a-zA-Z][^!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?\s]*$/;
+                console.log('닉네임 넘어온 값', userValue);
+                if (userValue !== undefined && regNickExp.test(userValue)) {
+                    return new Promise(async (resolve) => {
+                        const result = await checkUser('user_nick', userValue)
+                                        ? true : createError({path, message: "동일한 닉네임이 존재합니다."});
+                        resolve(result);
+                    });
+                } else {
+                    return createError({
+                        path, message: "닉네임은 2~10자 이내 특수문자 사용안됩니다!"
+                    });
+                }
+            })
+            .required("닉네임은 2~10자 이내 특수문자 사용안됩니다!"),
     });
+
     const submit = async (values) => {
         const {user_email, user_passwd, user_nick} = values;
         try {
