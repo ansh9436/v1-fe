@@ -127,8 +127,8 @@ const Mypage = () => {
                         />
                         <img className="profileImage" src={image.profileImg} alt="profileImage"
                              onClick={() => inputRef.click()}/>
-                        <div className="nickname">{userInfo.user_nick}</div>
-                        <div className="profileID">{userInfo.user_email}</div>
+                        <div className="nickname">{userInfo["user_nick"]}</div>
+                        <div className="profileID">{userInfo["user_email"]}</div>
                     </div>
                     {typeof image.imgFile === 'object' &&
                     <>

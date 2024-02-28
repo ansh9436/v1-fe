@@ -130,7 +130,7 @@ const Register = () => {
                                     labelName="이메일"
                                     name="user_email"
                                     type="email"
-                                    placeholder="이메일"
+                                    placeholder="이메일 입력하세요"
                                     onChange={handleChange}
                                     value={values.user_email}
                                     autoComplete='off'
@@ -142,7 +142,7 @@ const Register = () => {
                                     labelName="비밀번호"
                                     name="user_passwd"
                                     type="password"
-                                    placeholder="비밀번호"
+                                    placeholder="비밀번호를 입력하세요"
                                     onChange={handleChange}
                                     value={values.user_passwd}
                                     autoComplete='new-password'
@@ -154,7 +154,7 @@ const Register = () => {
                                     labelName="비밀번호 확인"
                                     name="user_passwd2"
                                     type="password"
-                                    placeholder="비밀번호 확인"
+                                    placeholder="비밀번호 확인을 입력하세요"
                                     onChange={handleChange}
                                     value={values.user_passwd2}
                                     autoComplete='new-password'
@@ -166,7 +166,7 @@ const Register = () => {
                                     labelName="닉네임"
                                     name="user_nick"
                                     type="text"
-                                    placeholder="닉네임"
+                                    placeholder="닉네임을 입력하세요"
                                     onChange={handleChange}
                                     value={values.user_nick}
                                     autoComplete='off'

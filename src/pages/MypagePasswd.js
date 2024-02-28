@@ -9,8 +9,8 @@ import MyPageButton from '../components/Style/MyPageButton';
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { toast, ToastContainer } from "react-toastify";
-const MypagePasswd = () => {
 
+const MypagePasswd = () => {
     const titleBox = {
         display: 'flex',
         justifyContent: 'space-between'

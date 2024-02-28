@@ -40,13 +40,13 @@ const MypageWithdrawal = () => {
                         position: "top-center",
                         autoClose: 2000
                     });
+                    jwtUtils.setAccToken('');
+                    jwtUtils.setReToken('');
                     setTimeout(() => {
                         navigate("/login");
                     }, 2000);
                 } else {
                     if (res.data.message === 'MypagePasswordNotCompare') {
-                        jwtUtils.setAccToken('');
-                        jwtUtils.setReToken('');
                         toast.error(<h3>비밀번호가 일치하지 않습니다.</h3>, {
                             position: "top-center",
                         });
@@ -77,6 +77,7 @@ const MypageWithdrawal = () => {
                         <form onSubmit={handleSubmit}>
                             <MyPageInput
                                 type="password"
+                                name="user_passwd"
                                 placeholder="계정 비밀번호"
                                 value={values.user_passwd}
                                 onChange={handleChange}
