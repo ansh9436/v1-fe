@@ -33,9 +33,9 @@
     "yup": "^1.3.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env REACT_APP_API_URL=https://api-anshcompany.koyeb.app react-scripts start",
     "local": "cross-env REACT_APP_API_URL=http://localhost:8080 react-scripts start",
-    "build": "cross-env REACT_APP_API_URL=https://ansh-anshcompany.koyeb.app react-scripts build",
+    "build": "cross-env REACT_APP_API_URL=https://api-anshcompany.koyeb.app react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

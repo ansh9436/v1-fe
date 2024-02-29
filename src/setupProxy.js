@@ -5,7 +5,8 @@ module.exports = function (app) {
         createProxyMiddleware('/api', {
             //target: 'https://ansh-anshcompany.koyeb.app',
             //target: 'http://172.30.36.29:8080',
-            target: 'http://localhost:8080',
+            //target: 'http://localhost:8080',
+            target: process.env.REACT_APP_API_URL,
             changeOrigin: true,
         })
     );
