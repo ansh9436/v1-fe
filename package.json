@@ -11,6 +11,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.7",
+    "cross-env": "^7.0.3",
     "eslint": "7.32.0",
     "eslint-config-react-app": "6.0.0",
     "formik": "^2.4.5",
@@ -33,7 +34,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "local": "cross-env REACT_APP_API_URL=http://localhost:8080 react-scripts start",
+    "build": "cross-env REACT_APP_API_URL=https://ansh-anshcompany.koyeb.app react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

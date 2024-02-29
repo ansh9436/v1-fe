@@ -6,11 +6,11 @@ import { jwtUtils } from "../../commons/utils";
 const Header = ({ title, topLink, isBackButton, backLink }) => {
     //const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     //console.log('jwt',jwtUtils.getUser());
-    let login_user_image, userImg;
+    let userImg;
     if(jwtUtils.isAuth()) {
         const { user_image } = jwtUtils.getUser();
-        login_user_image = user_image;
-        userImg = 'http://localhost:8080/' + login_user_image;
+        userImg = process.env.REACT_APP_API_URL+'/'+user_image
+
     }
     const navigate = useNavigate();
     const clickLocation = () => {

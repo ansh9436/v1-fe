@@ -11,7 +11,7 @@ const BoardCard = ({
                        seq, created_at, writer_yn, user_nick, title,
                        body, user_liked, like_cnt, comment_cnt, onRemove, page, user_image
                    }) => {
-    const userImage = `http://localhost:8080/${user_image}`;
+    const userImage = process.env.REACT_APP_API_URL+'/'+user_image;
 
     const onBoardDelete = () => {
         const confirmDelete = window.confirm("게시글을 삭제하시겠습니까?");
