@@ -20,8 +20,8 @@ instance.interceptors.request.use((config) => {
             console.info('헤더 삽입된 액세세 토큰', accToken);
             config.headers.Authorization = `Bearer ${accToken}`;
         } else {
-            window.location.href = "/login";
-            alert("엑세스토큰이 없습니다. 다시 로그인 해주세요.");
+            //window.location.href = "/login";
+            //alert("엑세스토큰이 없습니다. 다시 로그인 해주세요.");
         }
         return config;
     } catch (err) {
