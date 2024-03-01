@@ -57,6 +57,7 @@ const Login = () => {
                 values.user_passwd = '';
             }
         } catch (e) {
+            console.log('eeeeeee', e);
             toast.error(e.response.data.message + "😭", {
                 position: "top-center",
             });
