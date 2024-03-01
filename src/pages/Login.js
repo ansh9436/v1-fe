@@ -24,7 +24,7 @@ const Login = () => {
         const apiUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL : '';
         try {
             //const {data} = await axios.post(`${apiUrl}/api/login`, {
-            const {data} = await axios.post(`/api/login`, {
+            const {data} = await axios.post(`/proxy/api/login`, {
                 user_email,
                 user_passwd,
             });

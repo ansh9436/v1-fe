@@ -1,5 +1,5 @@
 [[redirects]]
-  from = "/api/*"
+  from = "/proxy/*"
   to = "https://api-anshcompany.koyeb.app/:splat"
   status = 200
   force = true
