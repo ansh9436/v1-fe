@@ -1,5 +1,5 @@
 const {createProxyMiddleware} = require('http-proxy-middleware');
-
+console.log('setupProxy 에서', process.env.REACT_APP_API_URL);
 module.exports = function (app) {
     app.use(
         createProxyMiddleware('/api', {

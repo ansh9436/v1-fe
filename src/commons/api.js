@@ -2,6 +2,7 @@ import axios from 'axios';
 import store from "../redux/configStore";
 import { setAccToken, /*setReToken*/ } from "../redux/reducers/AuthReducer";
 
+console.log('api 에서', process.env.NODE_ENV, process.env.REACT_APP_API_URL);
 const instance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL : ''
 });
