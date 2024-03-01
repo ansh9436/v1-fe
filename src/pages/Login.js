@@ -27,7 +27,7 @@ const Login = () => {
         const URL = `${PROXY}/api/login`;
         try {
             //const {data} = await axios.post(`${apiUrl}/api/login`, {
-            const {data} = await axios.post(URL, {
+            const {data} = await axios.post(`/api/login`, {
                 user_email,
                 user_passwd,
             });
