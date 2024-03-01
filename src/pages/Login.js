@@ -58,7 +58,7 @@ const Login = () => {
             }
         } catch (e) {
             console.log('eeeeeee', e);
-            toast.error(e.response.data.message + "😭", {
+            toast.error(e.response.data.message + "😭 에러러", {
                 position: "top-center",
             });
         }
