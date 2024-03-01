@@ -21,16 +21,18 @@ const Login = () => {
     });
     const submit = async (values) => {
         const {user_email, user_passwd} = values;
-        const apiUrl = process.env.NODE_ENV === 'production'
-                        ? process.env.REACT_APP_API_URL : '';
-        const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
-        const URL = `${PROXY}/api/login`;
+        //const apiUrl = process.env.NODE_ENV === 'production'
+         //               ? process.env.REACT_APP_API_URL : '';
+        //const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+        //const URL = `/api/api/login`;
         try {
             //const {data} = await axios.post(`${apiUrl}/api/login`, {
-            const {data} = await axios.post(`/api/login`, {
+            const res = await axios.post(`/api/api/login`, {
                 user_email,
                 user_passwd,
             });
+            console.log('ressssssss', res);
+            const { data } = res;
             if (data.success && data.message === 'OK') {
                 jwtUtils.setAccToken(data['resultData']['accessToken']);
                 jwtUtils.setReToken(data['resultData']['refreshToken']);
