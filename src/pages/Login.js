@@ -27,7 +27,7 @@ const Login = () => {
         //const URL = `/api/api/login`;
         try {
             //const {data} = await axios.post(`${apiUrl}/api/login`, {
-            const res = await axios.post(`/api/api/login`, {
+            const res = await axios.post(`/api/login`, {
                 user_email,
                 user_passwd,
             });
