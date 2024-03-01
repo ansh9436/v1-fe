@@ -2,4 +2,4 @@
   from = "/api/*"
   to = "https://api-anshcompany.koyeb.app/:splat"
   status = 200
-  force = true
+  force = false
