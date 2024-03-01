@@ -1,10 +1,10 @@
 import axios from 'axios';
 import store from "../redux/configStore";
-import { setAccToken, setReToken } from "../redux/reducers/AuthReducer";
+import { setAccToken, /*setReToken*/ } from "../redux/reducers/AuthReducer";
 
 const instance = axios.create({
     // baseURL: process.env.NODE_ENV === 'prod' ? '' : 'https://api.eastflag.co.kr'
-    baseURL: process.env.NODE_ENV === 'production' ? 'https://ansh-anshcompany.koyeb.app' : ''
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL : ''
 });
 
 /**
