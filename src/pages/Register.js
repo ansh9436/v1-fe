@@ -17,7 +17,7 @@ const Register = () => {
     const apiUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL : '';
     const checkUser = async (type, user_value) => {
         let isSuccess = false;
-        await axios.post(`${apiUrl}/api/du_check/${type}`, {user_value: user_value})
+        await axios.post(`/api/du_check/${type}`, {user_value: user_value})
             .then((res) => {
                 console.info(`${type} 중복검사 ajax 결과값`, res.data);
                 isSuccess = !!res.data.success;
