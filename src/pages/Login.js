@@ -50,7 +50,7 @@ const Login = () => {
                     }
                 }, 1000);
             } else {
-                toast.error(data.message + "😭", {
+                toast.error(data.message + "😭 서버에 ㅁㄴㅇㄹㄴ", {
                     position: "top-center",
                 });
                 values.user_email = '';
