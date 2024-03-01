@@ -21,10 +21,13 @@ const Login = () => {
     });
     const submit = async (values) => {
         const {user_email, user_passwd} = values;
-        const apiUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL : '';
+        const apiUrl = process.env.NODE_ENV === 'production'
+                        ? process.env.REACT_APP_API_URL : '';
+        const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+        const URL = `${PROXY}/api/login`;
         try {
             //const {data} = await axios.post(`${apiUrl}/api/login`, {
-            const {data} = await axios.post(`/proxy/api/login`, {
+            const {data} = await axios.post(URL, {
                 user_email,
                 user_passwd,
             });
