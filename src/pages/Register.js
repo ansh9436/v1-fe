@@ -14,9 +14,10 @@ import './Register.scss';
 
 const Register = () => {
     const navigate = useNavigate();
+    const apiUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL : '';
     const checkUser = async (type, user_value) => {
         let isSuccess = false;
-        await axios.post(`/api/du_check/${type}`, {user_value: user_value})
+        await axios.post(`${apiUrl}/api/du_check/${type}`, {user_value: user_value})
             .then((res) => {
                 console.info(`${type} 중복검사 ajax 결과값`, res.data);
                 isSuccess = !!res.data.success;
@@ -81,7 +82,7 @@ const Register = () => {
     const submit = async (values) => {
         const {user_email, user_passwd, user_nick} = values;
         try {
-            await axios.post("/api/join", {
+            await axios.post(`${apiUrl}/api/join`, {
                 user_email: user_email,
                 user_passwd: user_passwd,
                 user_nick: user_nick,
