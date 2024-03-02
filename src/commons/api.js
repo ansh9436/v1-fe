@@ -57,8 +57,9 @@ instance.interceptors.response.use((response) => { //status 가 200인 경우 th
                 console.log('저장소 전체', store.getState().Auth);
             }
 
+            const proxy = process.env.NODE_ENV === 'production' ? '/proxy':'';
             //console.info('401 api 에서 응답 에러출력', data, status);
-            await axios.get(`/api/refresh`, {
+            await axios.get(`${proxy}/api/refresh`, {
                 headers: {
                     "Authorization": `Bearer ${reToken}`
                 }
