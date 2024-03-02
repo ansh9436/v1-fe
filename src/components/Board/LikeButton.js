@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../../commons/api";
 
 const LikeButton = ({top_seq, user_liked, like_cnt}) => {
@@ -36,7 +36,7 @@ const LikeButton = ({top_seq, user_liked, like_cnt}) => {
         } else {
             setCountStyle({display: 'inline-block', color: '#575555', fontSize: '13px', paddingLeft: '4px'});
         }
-    }, [userLiked]);
+    }, [userLiked, likeCount]);
 
 
     return (
