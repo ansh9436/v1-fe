@@ -1,7 +1,6 @@
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import './login.scss';
-//import axios from "axios";
-import api from "../commons/api";
+import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Formik, ErrorMessage } from "formik";
@@ -23,8 +22,8 @@ const Login = () => {
     const submit = async (values) => {
         const {user_email, user_passwd} = values;
         try {
-            //const {data} = await axios.post(`${apiUrl}/api/login`, {
-            const res = await api.post(`/proxy/api/login`, {
+            const proxy = process.env.NODE_ENV === 'production' ? '/proxy':'';
+            const res = await axios.post(`${proxy}/api/login`, {
                 user_email,
                 user_passwd,
             });

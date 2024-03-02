@@ -13,8 +13,8 @@ const instance = axios.create({
  */
 instance.interceptors.request.use((config) => {
     console.log('config',config, config.url);
-    if(config.url === '/api/login' || config.url === '/api/register') {
-        return config;
+    if(process.env.NODE_ENV === 'production') {
+        config.url = '/proxy/' + config.url
     }
     // HTTP Authorization 요청 헤더에 jwt-token 을 넣음
     // 서버측 미들웨어에서 이를 확인하고 검증한 후 해당 API 에 요청함.
