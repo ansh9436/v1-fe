@@ -34,8 +34,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "local": "cross-env REACT_APP_API_URL=http://localhost:8080 react-scripts start",
-    "build": "cross-env REACT_APP_API_URL=https://api-anshcompany.koyeb.app react-scripts build",
+    "local": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
