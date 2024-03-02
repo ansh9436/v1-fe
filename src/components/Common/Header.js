@@ -6,7 +6,7 @@ import { jwtUtils } from "../../commons/utils";
 const Header = ({ title, topLink, isBackButton, backLink }) => {
     //const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     //console.log('jwt',jwtUtils.getUser());
-    const proxy = process.env.NODE_ENV === 'production' ? '/proxy':'';
+    const proxy = process.env.NODE_ENV === 'production' ? '/proxy':process.env.APP_API_URL;
     let userImg;
     if(jwtUtils.isAuth()) {
         const { user_image } = jwtUtils.getUser();
