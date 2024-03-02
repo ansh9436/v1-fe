@@ -12,7 +12,7 @@ const instance = axios.create({
  *       2개의 콜백 함수를 받습니다.
  */
 instance.interceptors.request.use((config) => {
-    console.log('config',config);
+    console.log('config',config, config.url);
     if(config.url === '/api/login' || config.url === '/api/register') {
         return config;
     }
