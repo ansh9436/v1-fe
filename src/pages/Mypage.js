@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { jwtUtils } from "../commons/utils";
 
 const Mypage = () => {
+    const proxy = process.env.NODE_ENV === 'production' ? '/proxy':'';
     const [image, setImage] = useState({
         imgFile: '',
         profileImg: '/assets/profile.png',
@@ -85,7 +86,7 @@ const Mypage = () => {
             .then(data => {
                 if (data.success) {
                     const {user_email, user_nick, user_image} = data["resultData"];
-                    const userImg = process.env.REACT_APP_API_URL+'/'+user_image;
+                    const userImg = proxy + '/' + user_image;
                     setUserInfo({
                         user_email: user_email,
                         user_nick: user_nick,
