@@ -24,7 +24,7 @@ const Login = () => {
         const {user_email, user_passwd} = values;
         try {
             //const {data} = await axios.post(`${apiUrl}/api/login`, {
-            const res = await api.post(`/api/login`, {
+            const res = await api.post(`/proxy/api/login`, {
                 user_email,
                 user_passwd,
             });
