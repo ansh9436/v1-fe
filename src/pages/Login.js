@@ -1,6 +1,7 @@
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import './login.scss';
-import axios from "axios";
+//import axios from "axios";
+import api from "../commons/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Formik, ErrorMessage } from "formik";
@@ -21,17 +22,13 @@ const Login = () => {
     });
     const submit = async (values) => {
         const {user_email, user_passwd} = values;
-        //const apiUrl = process.env.NODE_ENV === 'production'
-         //               ? process.env.REACT_APP_API_URL : '';
-        //const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
-        //const URL = `/api/api/login`;
         try {
             //const {data} = await axios.post(`${apiUrl}/api/login`, {
-            const res = await axios.post(`/api/login`, {
+            const res = await api.post(`/api/login`, {
                 user_email,
                 user_passwd,
             });
-            console.log('ressssssss', res);
+            console.log('res s ss ssss', res);
             const { data } = res;
             if (data.success && data.message === 'OK') {
                 jwtUtils.setAccToken(data['resultData']['accessToken']);
@@ -57,7 +54,7 @@ const Login = () => {
                 values.user_passwd = '';
             }
         } catch (e) {
-            console.log('eeeeeee', e);
+            console.log('ee eee ee', e);
             toast.error(e.response.data.message + "😭 에러러", {
                 position: "top-center",
             });

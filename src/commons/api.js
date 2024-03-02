@@ -4,7 +4,7 @@ import { setAccToken, /*setReToken*/ } from "../redux/reducers/AuthReducer";
 
 console.log('api 에서', process.env.NODE_ENV, process.env.REACT_APP_API_URL);
 const instance = axios.create({
-    baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL : ''
+    baseURL: process.env.NODE_ENV === 'production' ? '' : ''
 });
 
 /**
@@ -12,6 +12,10 @@ const instance = axios.create({
  *       2개의 콜백 함수를 받습니다.
  */
 instance.interceptors.request.use((config) => {
+    console.log('config',config);
+    if(config.url === '/api/login' || config.url === '/api/register') {
+        return config;
+    }
     // HTTP Authorization 요청 헤더에 jwt-token 을 넣음
     // 서버측 미들웨어에서 이를 확인하고 검증한 후 해당 API 에 요청함.
     try {
@@ -20,8 +24,8 @@ instance.interceptors.request.use((config) => {
             console.info('헤더 삽입된 액세세 토큰', accToken);
             config.headers.Authorization = `Bearer ${accToken}`;
         } else {
-            //window.location.href = "/login";
-            //alert("엑세스토큰이 없습니다. 다시 로그인 해주세요.");
+            window.location.href = "/login";
+            alert("엑세스토큰이 없습니다. 다시 로그인 해주세요.");
         }
         return config;
     } catch (err) {
