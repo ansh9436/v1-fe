@@ -11,7 +11,7 @@ const BoardCard = ({
                        seq, created_at, writer_yn, user_nick, title,
                        body, user_liked, like_cnt, comment_cnt, onRemove, page, user_image
                    }) => {
-    const fileHost = process.env.NODE_ENV === 'production' ? '/dothome' : process.env.FILE_HOST;
+    const fileHost = process.env.NODE_ENV === 'production' ? '/dothome' : process.env.REACT_APP_FILE_HOST;
     const userImage = fileHost + '/' + user_image;
 
     const onBoardDelete = () => {

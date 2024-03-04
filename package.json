@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "local": "cross-env FILE_HOST=http://ansh.dothome.co.kr react-scripts start",
+    "local": "cross-env REACT_APP_FILE_HOST=http://ansh.dothome.co.kr react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

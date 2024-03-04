@@ -16,7 +16,7 @@ const Mypage = () => {
         fileHost = '/dothome';
         dothome = '/dothome';
     } else {
-        fileHost = process.env.FILE_HOST;
+        fileHost = process.env.REACT_APP_FILE_HOST;
         dothome = '';
     }
     const [image, setImage] = useState({
@@ -66,8 +66,8 @@ const Mypage = () => {
                 });
             });
 
-        // 가지고 온 파일정보를 디비에 등록
-        await api.post(`/api/file/register`, registerParams)
+        // 가지고 온 파일정보가 온전하다면 디비에 등록
+        typeof registerParams === 'object' && await api.post(`/api/file/register`, registerParams)
             .then(async res => {
                 console.info('fileRegister res', res);
                 const { success, message } = res.data;
@@ -76,8 +76,7 @@ const Mypage = () => {
                         imgFile: "", profileImg: image.profileImg
                     });
                     toast.success(<h3>프로필 이미지 변경이 완료되었습니다😎</h3>, {
-                        position: "top-center",
-                        autoClose: 2000
+                        position: "top-center"
                     });
                     return await jwtUtils.tokenPublish();
                 } else {
@@ -93,6 +92,8 @@ const Mypage = () => {
                     position: "top-center",
                 });
             });
+
+        // 예전 등록정보 파일 있으면 파일서버에서 삭제
 
         /*
         백엔드서버에 파일업로드가 될 경우 사용할수 있음
@@ -180,7 +181,7 @@ const Mypage = () => {
         });
 
 
-    }, [])
+    }, [fileHost])
 
     return (
         <>
