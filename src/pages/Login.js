@@ -9,7 +9,7 @@ import { jwtUtils } from "../commons/utils";
 
 const Login = () => {
     const navigate = useNavigate();
-    console.log(/*process.env.REACT_APP_API_URL,*/ process.env.NODE_ENV);
+    console.log('NODE_ENV', process.env.NODE_ENV);
     // 쿼리 파라미터 받아오기
     const [searchParams] = useSearchParams();
     const validationSchema = Yup.object().shape({

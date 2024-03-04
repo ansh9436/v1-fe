@@ -6,8 +6,8 @@ import { utils } from "../../commons/utils";
 import { toast } from "react-toastify";
 
 const CommentCard = ({seq, user_nick, body, created_at, onRemove, writer_yn, user_image}) => {
-    const proxy = process.env.NODE_ENV === 'production' ? '/proxy':process.env.APP_API_URL;
-    const userImage = proxy + '/' + user_image;
+    const fileHost = process.env.NODE_ENV === 'production' ? '/dothome' : process.env.FILE_HOST;
+    const userImage = fileHost + '/' + user_image;
     const onCommentDelete = () => {
         const confirmDelete = window.confirm("댓글을 삭제하시겠습니까?");
         confirmDelete && api.delete(`/api/comment`, {data: {seq: seq}})

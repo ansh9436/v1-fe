@@ -11,12 +11,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { jwtUtils } from "../commons/utils";
 
 const Mypage = () => {
-    const proxy = process.env.NODE_ENV === 'production' ? '/proxy':process.env.APP_API_URL;
+    let fileHost, dothome
+    if(process.env.NODE_ENV === 'production') {
+        fileHost = '/dothome';
+        dothome = '/dothome';
+    } else {
+        fileHost = process.env.FILE_HOST;
+        dothome = '';
+    }
     const [image, setImage] = useState({
         imgFile: '',
         profileImg: '/assets/profile.png',
     });
-    //const [userInfo, setUserInfo] = useState({});
     const [userInfo, setUserInfo] = useState(jwtUtils.getUser());
 
     const onCancel = () => {
@@ -26,6 +32,70 @@ const Mypage = () => {
     }
 
     const submitProfileImg = async () => {
+        // 백엔드 서버에 파일등록이 안될경우 따로 파일서버를 쓸 경우
+        const formData = new FormData();
+        formData.append("att_file", image.imgFile);
+
+        // 파입서버에 업로드 하고 파일 정보를 가지고 옴
+        let registerParams;
+        await api.post(`${dothome}/fileapi/upload`, formData)
+            .then(async res => {
+                console.info('fileUpload res', res);
+                const { success, message, resultData } = res.data;
+                if(success) {
+                    // 파일디비 등록을 위한 파라미터 생성
+                    registerParams = {
+                        top_seq: 0,
+                        ftype: "U",
+                        destination: resultData["file_path"],
+                        filename: resultData["file_mask"],
+                        size: resultData["file_size"],
+                        originalname: resultData["file_org"]
+                    };
+                } else {
+                    console.error(message);
+                    toast.error(<h3>프로필 이미지 변경 중 에러가 발생했습니다.<br/>다시 시도 하세요</h3>, {
+                        position: "top-center",
+                    });
+                }
+            })
+            .catch((e) => {
+                console.error(e.response.data.message);
+                toast.error(<h3>프로필 이미지 변경 중 에러가 발생했습니다.</h3>, {
+                    position: "top-center",
+                });
+            });
+
+        // 가지고 온 파일정보를 디비에 등록
+        await api.post(`/api/file/register`, registerParams)
+            .then(async res => {
+                console.info('fileRegister res', res);
+                const { success, message } = res.data;
+                if(success) {
+                    setImage({
+                        imgFile: "", profileImg: image.profileImg
+                    });
+                    toast.success(<h3>프로필 이미지 변경이 완료되었습니다😎</h3>, {
+                        position: "top-center",
+                        autoClose: 2000
+                    });
+                    return await jwtUtils.tokenPublish();
+                } else {
+                    console.error(message);
+                    toast.error(<h3>프로필 이미지 변경 중 에러가 발생했습니다.<br/>다시 시도 하세요</h3>, {
+                        position: "top-center",
+                    });
+                }
+            })
+            .catch((e) => {
+                console.error(e.response.data.message);
+                toast.error(<h3>프로필 이미지 변경 중 에러가 발생했습니다.</h3>, {
+                    position: "top-center",
+                });
+            });
+
+        /*
+        백엔드서버에 파일업로드가 될 경우 사용할수 있음
         const formData = new FormData();
         formData.append("att_file", image.imgFile);
         formData.append("top_seq", 0);
@@ -54,7 +124,7 @@ const Mypage = () => {
                 toast.error(<h3>프로필 이미지 변경 중 에러가 발생했습니다.</h3>, {
                     position: "top-center",
                 });
-            });
+            });*/
     }
 
     let inputRef;
@@ -86,7 +156,7 @@ const Mypage = () => {
             .then(data => {
                 if (data.success) {
                     const {user_email, user_nick, user_image} = data["resultData"];
-                    const userImg = proxy + '/' + user_image;
+                    const userImg = fileHost + '/' + user_image;
                     setUserInfo({
                         user_email: user_email,
                         user_nick: user_nick,

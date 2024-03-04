@@ -4,13 +4,11 @@ import "./Header.scss";
 import { jwtUtils } from "../../commons/utils";
 
 const Header = ({ title, topLink, isBackButton, backLink }) => {
-    //const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    //console.log('jwt',jwtUtils.getUser());
-    const proxy = process.env.NODE_ENV === 'production' ? '/proxy':process.env.APP_API_URL;
+    const fileHost = process.env.NODE_ENV === 'production' ? '/proxy':process.env.FILE_HOST;
     let userImg;
     if(jwtUtils.isAuth()) {
         const { user_image } = jwtUtils.getUser();
-        userImg = proxy + '/' + user_image
+        userImg = fileHost + '/' + user_image
 
     }
     const navigate = useNavigate();

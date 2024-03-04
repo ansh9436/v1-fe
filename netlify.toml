@@ -5,6 +5,12 @@
   force = true
   headers = {X-From = "Netlify"}
 [[redirects]]
+  from = "/dothome/*"
+  to = "http://ansh.dothome.co.kr/:splat"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from "../redux/configStore";
 import { setAccToken, /*setReToken*/ } from "../redux/reducers/AuthReducer";
 
-console.log('api 에서', process.env.NODE_ENV);
+// 배포환경에서는 앞에 /proxy 를 붙여서 백엔드 호출 netlify 환경
 const instance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? '/proxy' : ''
 });
@@ -12,10 +12,6 @@ const instance = axios.create({
  *       2개의 콜백 함수를 받습니다.
  */
 instance.interceptors.request.use((config) => {
-    console.log('config',config, config.url);
-    /*if(process.env.NODE_ENV === 'production') {
-        config.url = '/proxy' + config.url
-    }*/
     // HTTP Authorization 요청 헤더에 jwt-token 을 넣음
     // 서버측 미들웨어에서 이를 확인하고 검증한 후 해당 API 에 요청함.
     try {
@@ -47,7 +43,7 @@ instance.interceptors.response.use((response) => { //status 가 200인 경우 th
     }
     , async (err) => {  // status 가 200이 아닌경우 응답에러직전 호출. .catch() 으로 이어짐
         const {data, status} = err.response;
-        //const proxy = process.env.NODE_ENV === 'production' ? '/proxy':'';
+
         if (status === 401) {  // 리플래쉬 토큰으로 엑세스 토큰 재발금
             const reToken = store.getState().Auth["reToken"];
             const originalRequest = err.config;
