@@ -9,6 +9,7 @@ import "./Mypage.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { jwtUtils, utils } from "../commons/utils";
+import axios from "axios";
 
 const Mypage = () => {
     let fileHost, dothome
@@ -38,7 +39,7 @@ const Mypage = () => {
 
         // 파입서버에 업로드 하고 파일 정보를 가지고 옴
         let registerParams;
-        await api.post(`${dothome}/fileapi/upload`, formData)
+        await axios.post(`${dothome}/fileapi/upload`, formData)
             .then(async res => {
                 console.info('fileUpload res', res);
                 const { success, message, resultData } = res.data;
@@ -66,7 +67,7 @@ const Mypage = () => {
 
         // 가지고 온 파일정보가 온전하다면 디비에 등록
         let deleteFileInfo;
-        typeof registerParams === 'object' && await api.post(`/api/file/register`, registerParams)
+        typeof registerParams === 'object' && await axios.post(`/api/file/register`, registerParams)
             .then(async res => {
                 console.info('fileRegister res', res);
                 const { success, message, resultData } = res.data;
