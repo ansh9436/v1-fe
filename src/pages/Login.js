@@ -1,11 +1,11 @@
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import './login.scss';
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { jwtUtils } from "../commons/utils";
+import { jwtUtils, utils } from "../commons/utils";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -27,17 +27,14 @@ const Login = () => {
                 user_email,
                 user_passwd,
             });
-            console.log('res s ss ssss', res);
             const { data } = res;
             if (data.success && data.message === 'OK') {
                 jwtUtils.setAccToken(data['resultData']['accessToken']);
                 jwtUtils.setReToken(data['resultData']['refreshToken']);
                 const redirectUrl = searchParams.get("redirectUrl");
-                toast.success(<h3>로그인 성공😎</h3>, {
-                    position: "top-center",
-                });
-                // redirectUrl 이 쿼리스트링으로 존재하면
-                // 원래가고자 했던 페이지로 돌아가기
+                utils.toastMsg('success', '로그인 성공😎');
+
+                // redirectUrl 이 쿼리스트링으로 존재하면 원래가고자 했던 페이지로 돌아가기
                 setTimeout(() => {
                     if (redirectUrl) {
                         navigate(redirectUrl);
@@ -46,17 +43,13 @@ const Login = () => {
                     }
                 }, 1000);
             } else {
-                toast.error(data.message + "😭 서버에 ㅁㄴㅇㄹㄴ", {
-                    position: "top-center",
-                });
+                utils.toastMsg('error', data.message + + "😭");
                 values.user_email = '';
                 values.user_passwd = '';
             }
         } catch (e) {
-            console.log('ee eee ee', e);
-            toast.error(e.response.data.message + "😭 에러러", {
-                position: "top-center",
-            });
+            console.error('ee eee ee', e);
+            utils.toastMsg('error', e.response.data.message + + "😭");
         }
     };
 

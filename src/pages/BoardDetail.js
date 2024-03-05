@@ -5,7 +5,8 @@ import Header from '../components/Common/Header';
 import BoardCard from '../components/Board/BoardCard';
 import CommentCard from '../components/Board/CommentCard';
 import "./Board.scss";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import { utils } from "../commons/utils";
 
 const BoardDetail = () => {
     const {seq} = useParams();
@@ -37,21 +38,13 @@ const BoardDetail = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         if (body.trim().length === 0 || body.trim().length > 100) {
-            toast(<h3>100자 이내로 작성해주세요!</h3>, {
-                position: "top-center",
-                hideProgressBar: true,
-                autoClose: 2000
-            });
+            utils.toastMsg('success', '100자 이내로 작성해주세요!');
             return false;
         }
         api.post('/api/comment', {top_seq: seq, body: body, anon_yn: anon_yn})
             .then(res => {
                 if (res.data.success) {
-                    toast.success(<h3>댓글 작성이 완료 되었습니다.</h3>, {
-                        position: "top-center",
-                        hideProgressBar: true,
-                        autoClose: 2000
-                    });
+                    utils.toastMsg('success', '댓글 작성이 완료 되었습니다.');
                     setBody("");
                     setCommentReload(enters => enters + 1);
                 }

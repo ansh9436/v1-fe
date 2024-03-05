@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import api from '../commons/api';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from "../components/Common/Header";
 import StyledBox from '../components/Style/StyledBox';
 import LogoutButton from '../components/Common/LogoutButton';
 import Footer from "../components/Common/Footer";
 import "./Mypage.scss";
-import {toast, ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { jwtUtils } from "../commons/utils";
+import { jwtUtils, utils } from "../commons/utils";
 
 const Mypage = () => {
     let fileHost, dothome
@@ -54,46 +54,46 @@ const Mypage = () => {
                     };
                 } else {
                     console.error(message);
-                    toast.error(<h3>프로필 이미지 변경 중 에러가 발생했습니다.<br/>다시 시도 하세요</h3>, {
-                        position: "top-center",
-                    });
+                    utils.toastMsg('error', `프로필 이미지 변경 중 에러가 발생했습니다.
+                                                                <br/>다시 시도 하세요`);
                 }
             })
             .catch((e) => {
                 console.error(e.response.data.message);
-                toast.error(<h3>프로필 이미지 변경 중 에러가 발생했습니다.</h3>, {
-                    position: "top-center",
-                });
+                utils.toastMsg('error', `프로필 이미지 변경 중 에러가 발생했습니다.
+                                                                <br/>다시 시도 하세요`);
             });
 
         // 가지고 온 파일정보가 온전하다면 디비에 등록
+        let deleteFileInfo;
         typeof registerParams === 'object' && await api.post(`/api/file/register`, registerParams)
             .then(async res => {
                 console.info('fileRegister res', res);
-                const { success, message } = res.data;
+                const { success, message, resultData } = res.data;
                 if(success) {
                     setImage({
                         imgFile: "", profileImg: image.profileImg
                     });
-                    toast.success(<h3>프로필 이미지 변경이 완료되었습니다😎</h3>, {
-                        position: "top-center"
-                    });
+                    deleteFileInfo = resultData;
+                    utils.toastMsg('success', `프로필 이미지 변경이 완료되었습니다😎`);
                     return await jwtUtils.tokenPublish();
                 } else {
                     console.error(message);
-                    toast.error(<h3>프로필 이미지 변경 중 에러가 발생했습니다.<br/>다시 시도 하세요</h3>, {
-                        position: "top-center",
-                    });
+                    utils.toastMsg('error', `프로필 이미지 변경 중 에러가 발생했습니다.
+                                                                <br/>다시 시도 하세요`);
                 }
             })
             .catch((e) => {
                 console.error(e.response.data.message);
-                toast.error(<h3>프로필 이미지 변경 중 에러가 발생했습니다.</h3>, {
-                    position: "top-center",
-                });
+                utils.toastMsg('error', `프로필 이미지 변경 중 에러가 발생했습니다.
+                                                                <br/>다시 시도 하세요`);
+            });
+        // 예전 등록정보 파일 있으면 파일서버에서 삭제
+        typeof deleteFileInfo === 'object' && await api.post(`${dothome}/fileapi/delete`, deleteFileInfo)
+            .then(async res => {
+                console.info('fileHostDelete res', res);
             });
 
-        // 예전 등록정보 파일 있으면 파일서버에서 삭제
 
         /*
         백엔드서버에 파일업로드가 될 경우 사용할수 있음
@@ -169,15 +169,11 @@ const Mypage = () => {
                     });
                 } else {
                     console.error(data.message);
-                    toast.error(<h3>프로필 로딩 중 에러가 발생했습니다.</h3>, {
-                        position: "top-center",
-                    });
+                    utils.toastMsg('error', `프로필 로딩 중 에러가 발생했습니다.`);
                 }
             }).catch(e => {
                 console.error(e.response.data.message);
-                toast.error(<h3>프로필 로딩 중 에러가 발생했습니다.</h3>, {
-                    position: "top-center",
-                });
+                utils.toastMsg('error', `프로필 로딩 중 에러가 발생했습니다.`);
         });
 
 

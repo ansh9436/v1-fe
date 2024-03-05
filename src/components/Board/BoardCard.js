@@ -1,11 +1,10 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LikeButton from './LikeButton';
 import './BoardCard.scss';
 import moment from "moment";
-import {toast} from "react-toastify";
 import api from "../../commons/api";
-import {utils} from "../../commons/utils";
+import { utils } from "../../commons/utils";
 
 const BoardCard = ({
                        seq, created_at, writer_yn, user_nick, title,
@@ -19,20 +18,12 @@ const BoardCard = ({
         confirmDelete && api.delete(`/api/board/${seq}`)
             .then(res => {
                 if (res.data.success) {
-                    toast.success(<h3>게시글 삭제에 했습니다.!</h3>, {
-                        position: "top-center",
-                        hideProgressBar: true,
-                        autoClose: 2000
-                    });
+                    utils.toastMsg('success', '게시글 삭제에 했습니다.!');
                     onRemove();
                 }
             })
             .catch(err => {
-                toast.error(err.response.data.message + "😭", {
-                    position: "top-center",
-                    hideProgressBar: true,
-                    autoClose: 2000
-                });
+                utils.toastMsg('error', err.response.data.message + "😭");
             })
     }
     return (

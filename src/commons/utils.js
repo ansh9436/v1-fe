@@ -3,7 +3,6 @@ import store from "../redux/configStore";
 import { setAccToken, setReToken, /*setUserInfo*/ } from "../redux/reducers/AuthReducer";
 import api from "./api";
 import {toast} from "react-toastify";
-import React from "react";
 
 export class jwtUtils {
     static isAuth() {
@@ -49,10 +48,19 @@ export class jwtUtils {
             })
             .catch((e) => {
                 console.error(e.response.data.message);
-                toast.error(<h3>프로필 이미지 변경 중 에러가 발생했습니다.</h3>, {
-                    position: "top-center",
-                });
             });
+    }
+
+    static getAccToken() {
+        return store.getState().Auth["accToken"];
+    }
+
+    static getReToken() {
+        return store.getState().Auth["reToken"];
+    }
+
+    static getAllStore() {
+        return store.getState().Auth;
     }
 
     static setAccToken(accToken) {
@@ -101,5 +109,13 @@ export class utils {
         } else {
             return `${Math.floor(TimeDiffDay / 365)}년 전`;
         }
+    }
+
+    static toastMsg(type, msg, autoClose=2000, position='top-center', hideProgressBar=true) {
+        toast[type](msg, {
+            position: position,
+            hideProgressBar: hideProgressBar,
+            autoClose: autoClose,
+        });
     }
 }

@@ -3,7 +3,6 @@ import "./CommentCard.scss";
 import moment from "moment";
 import api from "../../commons/api";
 import { utils } from "../../commons/utils";
-import { toast } from "react-toastify";
 
 const CommentCard = ({seq, user_nick, body, created_at, onRemove, writer_yn, user_image}) => {
     const fileHost = process.env.NODE_ENV === 'production' ? '/dothome' : process.env.REACT_APP_FILE_HOST;
@@ -13,20 +12,12 @@ const CommentCard = ({seq, user_nick, body, created_at, onRemove, writer_yn, use
         confirmDelete && api.delete(`/api/comment`, {data: {seq: seq}})
             .then(res => {
                 if (res.data.success) {
-                    toast.success(<h3>댓글 삭제에 했습니다.!</h3>, {
-                        position: "top-center",
-                        hideProgressBar: true,
-                        autoClose: 2000
-                    });
+                    utils.toastMsg('success', '댓글 삭제에 했습니다.!');
                     onRemove();
                 }
             })
             .catch(err => {
-                toast.error(err.response.data.message + "😭", {
-                    position: "top-center",
-                    hideProgressBar: true,
-                    autoClose: 2000
-                });
+                utils.toastMsg('error', err.response.data.message + "😭");
             })
 
     }
