@@ -34,7 +34,7 @@ const Register = () => {
             .test("userEmailCheck", async function (userValue) {
                 const {path, createError} = this;
                 const regEmailExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                console.log('이메일 넘어온 값', userValue);
+                console.log('이메일 넘어온 값', userValue, this);
                 if (userValue !== undefined && regEmailExp.test(userValue)) {
                     return new Promise(async (resolve) => {
                         const result = await checkUser('user_email', userValue)
