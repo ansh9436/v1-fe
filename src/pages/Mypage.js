@@ -67,7 +67,7 @@ const Mypage = () => {
 
         // 가지고 온 파일정보가 온전하다면 디비에 등록
         let deleteFileInfo;
-        typeof registerParams === 'object' && await axios.post(`/api/file/register`, registerParams)
+        typeof registerParams === 'object' && await api.post(`/api/file/register`, registerParams)
             .then(async res => {
                 console.info('fileRegister res', res);
                 const { success, message, resultData } = res.data;
@@ -90,7 +90,7 @@ const Mypage = () => {
                                                                 <br/>다시 시도 하세요`);
             });
         // 예전 등록정보 파일 있으면 파일서버에서 삭제
-        typeof deleteFileInfo === 'object' && await api.post(`${dothome}/fileapi/delete`, deleteFileInfo)
+        typeof deleteFileInfo === 'object' && await axios.post(`${dothome}/fileapi/delete`, deleteFileInfo)
             .then(async res => {
                 console.info('fileHostDelete res', res);
             });
