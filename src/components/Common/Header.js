@@ -4,7 +4,7 @@ import "./Header.scss";
 import { jwtUtils } from "../../commons/utils";
 
 const Header = ({ title, topLink, isBackButton, backLink }) => {
-    const fileHost = process.env.NODE_ENV === 'production' ? '/proxy':process.env.REACT_APP_FILE_HOST;
+    const fileHost = process.env.NODE_ENV === 'production' ? '/dothome':process.env.REACT_APP_FILE_HOST;
     let userImg;
     if(jwtUtils.isAuth()) {
         const { user_image } = jwtUtils.getUser();
