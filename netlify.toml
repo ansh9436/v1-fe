@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/proxy/*"
-  to = "https://api-anshcompany.koyeb.app/:splat"
+  to = "https://api-ansh9436.koyeb.app/:splat"
   status = 200
   force = true
   headers = {X-From = "Netlify"}
