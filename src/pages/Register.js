@@ -13,6 +13,10 @@ import './Register.scss';
 
 
 const Register = () => {
+    const onEmailChange = (cb) => {
+        console.log('이메일 작동');
+        return cb
+    }
     const navigate = useNavigate();
     const proxy = process.env.NODE_ENV === 'production' ? '/proxy':'';
     const checkUser = async (type, user_value) => {
@@ -79,7 +83,7 @@ const Register = () => {
             .required("닉네임은 2~10자 이내 특수문자 사용안됩니다!"),
     });
 
-    const submit = async (values) => {
+    const onRegisterSubmit = async (values) => {
         const {user_email, user_passwd, user_nick} = values;
         try {
             await axios.post(`${proxy}/api/join`, {
@@ -118,7 +122,7 @@ const Register = () => {
                 user_nick: "",
             }}
             validationSchema={validationSchema}
-            onSubmit={submit}
+            onSubmit={onRegisterSubmit}
         >
             {({values, handleSubmit, handleChange, errors}) => (
                 <StyledContainer>
@@ -132,7 +136,7 @@ const Register = () => {
                                     name="user_email"
                                     type="email"
                                     placeholder="이메일 입력하세요"
-                                    onChange={handleChange}
+                                    onChange={onEmailChange(handleChange)}
                                     value={values.user_email}
                                     autoComplete='off'
                                 />
